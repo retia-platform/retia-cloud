@@ -26,6 +26,8 @@ jobs:
       run: yarn build
     - name: Generate Application Key
       run: php artisan key:generate
+    - name: Remove Existing Application Caches
+      run: php artisan optimize:clear
     - name: Create Database
       run: |
         mkdir -p database
