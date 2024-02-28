@@ -8,8 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * The database seeders.
-     *
-     * @var array
      */
     private array $seeders = [
         User\UserSeeder::class,
@@ -20,6 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->run($this->seeders);
+        $this->call($this->seeders);
     }
 }
