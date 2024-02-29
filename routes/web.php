@@ -1,5 +1,11 @@
 <?php
 
+use App\Livewire\Configuration;
+use App\Livewire\Dashboard;
+use App\Livewire\Device;
+use App\Livewire\Log;
+use App\Livewire\Notification;
+use App\Livewire\Report;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +31,20 @@ Route::middleware([
 ])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+
+    // Devices
+    Route::get('/devices', Device::class)->name('devices');
+
+    // Configurations
+    Route::get('/configurations', Configuration::class)->name('configurations');
+
+    // Reports
+    Route::get('/reports', Report::class)->name('reports');
+
+    // Logs
+    Route::get('/logs', Log::class)->name('logs');
+
+    // Notifications
+    Route::get('/notifications', Notification::class)->name('notifications');
 });
