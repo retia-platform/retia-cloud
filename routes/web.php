@@ -1,11 +1,5 @@
 <?php
 
-use App\Livewire\Configuration;
-use App\Livewire\Dashboard;
-use App\Livewire\Device;
-use App\Livewire\Log;
-use App\Livewire\Notification;
-use App\Livewire\Report;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -31,20 +25,33 @@ Route::middleware([
 ])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/dashboard', \App\Livewire\Dashboard\Index::class)->name('dashboard');
 
     // Devices
-    Route::get('/devices', Device::class)->name('devices');
+    Route::prefix('devices')->group(function () {
+        Route::get('/', \App\Livewire\Device\Index::class)->name('devices');
+        Route::get('detail', \App\Livewire\Device\Detail::class)->name('devices.detail');
+        Route::get('store', \App\Livewire\Device\Store::class)->name('devices.store');
+        Route::get('update', \App\Livewire\Device\Update::class)->name('devices.update');
+    });
 
     // Configurations
-    Route::get('/configurations', Configuration::class)->name('configurations');
+    Route::prefix('configurations')->group(function () {
+        Route::get('/', \App\Livewire\Configuration\Index::class)->name('configurations');
+    });
 
     // Reports
-    Route::get('/reports', Report::class)->name('reports');
+    Route::prefix('reports')->group(function () {
+        Route::get('/', \App\Livewire\Report\Index::class)->name('reports');
+    });
 
     // Logs
-    Route::get('/logs', Log::class)->name('logs');
+    Route::prefix('logs')->group(function () {
+        Route::get('/', \App\Livewire\Log\Index::class)->name('logs');
+    });
 
     // Notifications
-    Route::get('/notifications', Notification::class)->name('notifications');
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', \App\Livewire\Notification\Index::class)->name('notifications');
+    });
 });

@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'retia_api' => [
+        'url' => env('RETIA_API_URL').':'.env('RETIA_API_PORT').'/',
+        'username' => env('RETIA_API_USERNAME'),
+        'password' => env('RETIA_API_PASSWORD'),
+    ],
 ];

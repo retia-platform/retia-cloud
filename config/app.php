@@ -188,4 +188,15 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Extra Config
+    |--------------------------------------------------------------------------
+    |
+    | This value is the extra configuration of your application.
+    |
+    */
+
+    'max_request_retries' => (int) env('MAX_REQUEST_RETRIES', 2),
+
 ];

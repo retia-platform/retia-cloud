@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -28,6 +30,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'retia_api_token',
     ];
 
     /**
@@ -40,6 +43,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'retia_api_token',
     ];
 
     /**
@@ -59,4 +63,24 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function refreshRetiaApiToken(): self
+    {
+        $retiaApiToken = Http::post(config('services.retia_api.url').'api/token', [
+            'username' => config('services.retia_api.username'),
+            'password' => config('services.retia_api.password'),
+        ])->json();
+
+        if (empty($retiaApiToken['access'])) {
+            Log::error('Failed to refresh Retia API token!');
+
+            return $this;
+        }
+
+        $this->update([
+            'retia_api_token' => $retiaApiToken['access'],
+        ]);
+
+        return $this->fresh();
+    }
 }
