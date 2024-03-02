@@ -36,6 +36,7 @@ class JetstreamServiceProvider extends ServiceProvider
                 if (app()->environment('testing')) {
                     return $user;
                 }
+
                 return $user->refreshRetiaApiToken();
             }
         });
