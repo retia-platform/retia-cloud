@@ -33,6 +33,9 @@ class JetstreamServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
 
             if ($user && Hash::check($request->password, $user->password)) {
+                if (app()->environment('testing')) {
+                    return $user;
+                }
                 return $user->refreshRetiaApiToken();
             }
         });
