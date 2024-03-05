@@ -1,79 +1,207 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="flex -mx-4">
-            <div class="w-full md:w-1/2 px-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
-                    <div class="pt-4 px-5 flex">
-                        <div class="w-full md:w-1/2">
-                            <b class="text-lg">{{ __('In Throughput Quota') }}</b>
+        <div class="w-full flex">
+            <div class="w-full md:w-1/3">
+                <article class="border border-gray-100 bg-white p-6 shadow rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Device</p>
+                            <p class="text-2xl font-medium text-gray-900"> {{ $deviceAmount }} </p>
                         </div>
-                        <div class="w-full md:w-1/2 flex justify-end">
-                            <span
-                                class="inline-flex items-center justify-center rounded-full bg-gray-100 px-2.5 py-0.5 text-gray-700 mr-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 h-5 w-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
-                                </svg>
-                                <p class="whitespace-nowrap text-sm">{{ config('app.timezone') }}</p>
-                            </span>
-                            <span
-                                class="inline-flex items-center justify-center rounded-full bg-gray-100 px-2.5 py-0.5 text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 h-5 w-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                <p class="whitespace-nowrap text-sm">Last 4 Hours</p>
-                            </span>
+                        <span class="rounded-full bg-gray-100 p-3 mt-5 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="mt-1 mb-2 flex gap-1 text-{{ $runningDeviceStatusColor }}-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        <p class="flex gap-2 text-xs">
+                            <span class="font-bold"> {{ $runningDevicePercentage }}% </span>
+                            <span class="text-gray-500"> Device Running </span>
+                        </p>
+                    </div>
+                </article>
+            </div>
+            <div class="w-full md:w-1/3 ml-12">
+                <article class="border border-gray-100 bg-white p-6 shadow rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Detector</p>
+                            <p class="text-2xl font-medium text-gray-900"> {{ $detectorAmount }} </p>
+                        </div>
+                        <span class="rounded-full bg-gray-100 p-3 mt-5 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+
+                        </span>
+                    </div>
+                    <div class="mt-1 mb-2 flex gap-1 text-{{ $runningDetectorStatusColor }}-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        <p class="flex gap-2 text-xs">
+                            <span class="font-bold"> {{ $runningDetectorPercentage }}% </span>
+                            <span class="text-gray-500"> Detector Running </span>
+                        </p>
+                    </div>
+                </article>
+            </div>
+            <div class="w-full md:w-1/3 ml-12">
+                <article class="border border-gray-100 bg-white p-6 shadow rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Monthly Log Recorded</p>
+                            <p class="text-2xl font-medium text-gray-900"> {{ $monthlyLogAmount }} </p>
+                        </div>
+                        <span class="rounded-full bg-gray-100 p-3 mt-5 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            </svg>
+
+                        </span>
+                    </div>
+                    <div class="mt-1 mb-2 flex gap-1 text-{{ $monthlyErrorLogStatusColor }}-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+
+                        <p class="flex gap-2 text-xs">
+                            <span class="font-bold"> {{ $monthlyErrorLogAmount }} </span>
+                            <span class="text-gray-500"> Log with Error Severity </span>
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="w-full flex pt-12">
+            <div class="w-full md:w-1/2">
+                <div class="bg-white overflow-hidden px-6 pb-6 pt-4 shadow rounded-lg">
+                    <div class="pt-4 px-5 flex">
+                        <div class="w-full md:w-4/6">
+                            <div>
+                                <b class="text-lg">{{ __('In Throughput') }}</b>
+                            </div>
+                            <div>
+                                <code class="text-xs">unit measured in bit/sec.</code>
+                            </div>
+                            <div>
+                                <code class="text-xs">on {{ config('app.timezone') }}, last 4 hours ago.</code>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-2/6 justify-end">
+                            <div>
+                                <select name="InThroughputDeviceSelect" id="in-throughput-device-select"
+                                    wire:model="inThroughputDevice" wire:change="updateInThroughputs"
+                                    class="w-full rounded-lg border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
+                                    @foreach ($devices as $device)
+                                        <option value="{{ $device['name'] }}">{{ $device['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mt-2 @if (empty($inThroughputChartModel->data)) mb-0.5 @endif">
+                                <select name="InThroughputInterfaceSelect" id="in-throughput-interface-select"
+                                    wire:model="inThroughputInterface" wire:change="updateInThroughputs"
+                                    class="w-full rounded-lg border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
+                                    @foreach ($interfaces as $interface)
+                                        <option value="{{ $interface['name'] }}">{{ $interface['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <livewire:livewire-line-chart key="in-throughput-quota-chart" :line-chart-model="$inThroughputChartModel" />
+                    @if (empty($inThroughputChartModel->data))
+                        <div class="w-full text-gray-600 mt-16 mb-12 p-2 flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 m-0.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                            <span class="text-sm ml-1">Data is not sufficient for analytics</span>
+                        </div>
+                    @else
+                        <livewire:livewire-line-chart key="{{ $inThroughputChartModel->reactiveKey() }}"
+                            :line-chart-model="$inThroughputChartModel" />
+                    @endif
                 </div>
             </div>
-            <div class="w-full md:w-1/2 px-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
+            <div class="w-full md:w-1/2 ml-12">
+                <div class="bg-white overflow-hidden px-6 pb-6 pt-4 shadow rounded-lg">
                     <div class="pt-4 px-5 flex">
-                        <div class="w-full md:w-1/2">
-                            <b class="text-lg">{{ __('Out Throughput Quota') }}</b>
+                        <div class="w-full md:w-4/6">
+                            <div>
+                                <b class="text-lg">{{ __('Out Throughput') }}</b>
+                            </div>
+                            <div>
+                                <code class="text-xs">unit measured in bit/sec.</code>
+                            </div>
+                            <div>
+                                <code class="text-xs">on {{ config('app.timezone') }}, last 4 hours ago.</code>
+                            </div>
                         </div>
-                        <div class="w-full md:w-1/2 flex justify-end">
-                            <span
-                                class="inline-flex items-center justify-center rounded-full bg-gray-100 px-2.5 py-0.5 text-gray-700 mr-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 h-5 w-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
-                                </svg>
-                                <p class="whitespace-nowrap text-sm">{{ config('app.timezone') }}</p>
-                            </span>
-                            <span
-                                class="inline-flex items-center justify-center rounded-full bg-gray-100 px-2.5 py-0.5 text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 h-5 w-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                <p class="whitespace-nowrap text-sm">Last 4 Hours</p>
-                            </span>
+                        <div class="w-full md:w-2/6 justify-end">
+                            <div>
+                                <select name="OutThroughputDeviceSelect" id="out-throughput-device-select"
+                                    wire:model="outThroughputDevice" wire:change="updateOutThroughputs"
+                                    class="w-full rounded-lg border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
+                                    @foreach ($devices as $device)
+                                        <option value="{{ $device['name'] }}">{{ $device['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mt-2 @if (empty($outThroughputChartModel->data)) mb-0.5 @endif">
+                                <select name="OutThroughputInterfaceSelect" id="out-throughput-interface-select"
+                                    wire:model="outThroughputInterface" wire:change="updateOutThroughputs"
+                                    class="w-full rounded-lg border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
+                                    @foreach ($interfaces as $interface)
+                                        <option value="{{ $interface['name'] }}">{{ $interface['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <livewire:livewire-line-chart key="out-throughput-quota-chart" :line-chart-model="$outThroughputChartModel" />
+                    @if (empty($outThroughputChartModel->data))
+                        <div class="w-full text-gray-600 mt-16 mb-12 p-2 flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 m-0.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                            <span class="text-sm ml-1">Data is not sufficient for analytics</span>
+                        </div>
+                    @else
+                        <livewire:livewire-line-chart key="{{ $outThroughputChartModel->reactiveKey() }}"
+                            :line-chart-model="$outThroughputChartModel" />
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="w-full py-12">
-            <div
-                class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
-                <div class="pt-7 pb-4 px-5 mb-2 flex">
-                    <div class="w-full md:w-1/2">
+        <div class="w-full pt-12">
+            <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
+                <div class="pt-6 pb-4 px-5 mb-2 flex">
+                    <div class="w-full md:w-1/2 pt-1">
                         <b class="text-lg">{{ __('Top 10 Devices') }}</b>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-end">
                         <a wire:navigate href="{{ route('devices') }}"
-                            class="group relative inline-flex items-center overflow-hidden rounded border border-current px-6 py-2 text-gray-600 focus:outline-none focus:ring active:text-gray-500">
+                            class="group relative inline-flex items-center overflow-hidden rounded border border-current px-7 py-2 text-gray-600 focus:outline-none focus:ring active:text-gray-500">
                             <span class="absolute -start-full transition-all group-hover:start-3">
                                 <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
@@ -101,25 +229,43 @@
                                 @foreach ($devices as $device)
                                     <tr>
                                         <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                                            {{ $device['hostname'] }}</td>
-                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">Cisco</td>
-                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">Router</td>
-                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                                            <code>{{ $device['mgmt_ipaddr'] }}</code>
+                                            {{ $device['name'] }}
                                         </td>
-                                        <td class="whitespace-nowrap px-4 py-2 font-bold text-green-600">🟢 Running</td>
+                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                            {{ $device['brand'] }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                            {{ $device['type'] }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                            <code>{{ $device['ip_address'] }}</code>
+                                        </td>
+                                        <td class="whitespace-nowrap px-4 py-2 font-bold">
+                                            @if ($device['running'])
+                                                <span class="text-green-600">🟢 Running</span>
+                                            @else
+                                                <span class="text-red-600">🔴 Down</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
+                                @if (empty($devices))
+                                    <tr>
+                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center"
+                                            colspan="5">
+                                            No Device Available
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex -mx-4">
-            <div class="w-full md:w-1/3 px-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
+        <div class="w-full flex pt-12">
+            <div class="w-full md:w-1/3">
+                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
                     <div class="py-4 px-5 flex">
                         <div class="w-full md:w-1/2">
                             <b class="text-lg">{{ __('Prometheus') }}</b>
@@ -160,9 +306,8 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 px-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
+            <div class="w-full md:w-1/3 ml-12">
+                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
                     <div class="py-4 px-5 flex">
                         <div class="w-full md:w-1/2">
                             <b class="text-lg">{{ __('Alert Manager') }}</b>
@@ -203,9 +348,8 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 px-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
+            <div class="w-full md:w-1/3 ml-12">
+                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
                     <div class="py-4 px-5 flex">
                         <div class="w-full md:w-1/2">
                             <b class="text-lg">{{ __('SNMP Exporter') }}</b>

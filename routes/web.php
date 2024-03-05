@@ -27,6 +27,14 @@ Route::middleware([
     // Dashboard
     Route::get('/dashboard', \App\Livewire\Dashboard\Index::class)->name('dashboard');
 
+    // Detectors
+    Route::prefix('detectors')->group(function () {
+        Route::get('/', \App\Livewire\Detector\Index::class)->name('detectors');
+        Route::get('detail', \App\Livewire\Device\Detail::class)->name('detectors.detail');
+        Route::get('store', \App\Livewire\Device\Store::class)->name('detectors.store');
+        Route::get('update', \App\Livewire\Device\Update::class)->name('detectors.update');
+    });
+
     // Devices
     Route::prefix('devices')->group(function () {
         Route::get('/', \App\Livewire\Device\Index::class)->name('devices');
@@ -35,19 +43,14 @@ Route::middleware([
         Route::get('update', \App\Livewire\Device\Update::class)->name('devices.update');
     });
 
-    // Configurations
-    Route::prefix('configurations')->group(function () {
-        Route::get('/', \App\Livewire\Configuration\Index::class)->name('configurations');
-    });
-
-    // Reports
-    Route::prefix('reports')->group(function () {
-        Route::get('/', \App\Livewire\Report\Index::class)->name('reports');
-    });
-
     // Logs
     Route::prefix('logs')->group(function () {
         Route::get('/', \App\Livewire\Log\Index::class)->name('logs');
+    });
+
+    // Users
+    Route::prefix('users')->group(function () {
+        Route::get('/', \App\Livewire\Log\Index::class)->name('users');
     });
 
     // Notifications

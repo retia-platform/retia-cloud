@@ -1,10 +1,11 @@
-<div class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg px-6 py-4 shadow sm:rounded-tl-md sm:rounded-tr-md">
+<div class="bg-white dark:bg-gray-800 overflow-hidden px-6 py-4 shadow rounded-lg">
     <div class="py-4 px-2 mb-2 flex">
         <div class="w-full md:w-1/3 mx-2 pt-2">
             <b class="text-lg">{{ $pluralTitle }}</b>
         </div>
-        <div class="w-full md:w-1/3 grid justify-items-end pr-4">
-            <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
+        <div class="w-full md:w-1/3 flex justify-end pr-4">
+            <span
+                class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty(route($storeRoute)) && $exportable) border @endif">
                 @if (!empty(route($storeRoute)))
                     <a wire:navigate href="{{ route($storeRoute) }}" class="flex">
                         <button
@@ -13,17 +14,19 @@
                         </button>
                     </a>
                 @endif
-
-                <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
-                    Export {{ $pluralTitle }}
-                </button>
+                @if ($exportable)
+                    <button
+                        class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
+                        Export {{ $pluralTitle }}
+                    </button>
+                @endif
             </span>
         </div>
         <div class="w-full md:w-1/3">
             <div class="relative">
                 <label for="Search" class="sr-only"> Search </label>
                 <input type="text" id="Search" placeholder="Search {{ $title }}..."
-                    class="w-full rounded-md border-gray-200 focus:border-gray-800 py-2.5 pe-10 shadow-sm sm:text-sm" />
+                    class="w-full rounded-md border-gray-200 py-2.5 pe-10 text-sm focus:ring-gray-600 focus:border-gray-600" />
                 <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
                     <button type="button" class="text-gray-600 hover:text-gray-700">
                         <span class="sr-only">Search</span>
@@ -46,7 +49,9 @@
                             <th wire:key="{{ $loop->index }}"
                                 class="whitespace-nowrap px-4 py-2 font-bold text-gray-900">{{ $column }}</th>
                         @endforeach
-                        <th class="whitespace-nowrap px-4 py-2 font-bold text-gray-900"></th>
+                        @if ($actionable)
+                            <th class="whitespace-nowrap px-4 py-2 font-bold text-gray-900"></th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -55,16 +60,18 @@
                             @foreach ($item as $data)
                                 <td wire:key="{{ $loop->index }}"
                                     class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                                    {!! $data !!}</td>
+                                    {!! $data !!}
+                                </td>
                             @endforeach
-                            <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
-                                @if ($actionable)
+                            @if ($actionable)
+                                <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
                                     <div x-data="{ isActive: false }">
                                         <div
                                             class="inline-flex items-center overflow-hidden rounded-md border bg-white">
-                                            <a href="#"
+                                            <a wire:navigate href="{{ route($detailRoute) }}"
                                                 class="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
-                                                Edit </a>
+                                                Detail
+                                            </a>
                                             <button x-on:click="isActive = !isActive"
                                                 class="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
                                                 <span class="sr-only">Menu</span>
@@ -81,10 +88,10 @@
                                             x-on:click.away="isActive = false"
                                             x-on:keydown.escape.window="isActive = false">
                                             <div class="p-2">
-                                                <a href="#"
+                                                <a wire:navigate href="{{ route($detailRoute) }}"
                                                     class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                                    role="menuitem"> See Detail</a>
-                                                <a href="#"
+                                                    role="menuitem"> See Detail </a>
+                                                <a wire:navigate href="{{ route($updateRoute) }}"
                                                     class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                                                     role="menuitem"> Edit {{ $title }} </a>
                                             </div>
@@ -97,18 +104,20 @@
                                                         stroke-width="2">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg> Remove {{ $title }} </button>
+                                                    </svg>
+                                                    Remove {{ $title }}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-                            </td>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
-                    @if (empty($items))
+                    @if ($items->count() <= 0)
                         <tr>
                             <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center"
-                                colspan="6">
+                                colspan="{{ count($columns) }}">
                                 No {{ $title }} Available
                             </td>
                         </tr>

@@ -2,117 +2,117 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
+use App\Traits\Requestable;
+use Illuminate\Support\Collection;
 
 class MonitoringRepository
 {
-    public function getDate(): string
-    {
-        return Carbon::now()->format('Y-m-d');
-    }
+    use Requestable;
 
-    public function getDefaultTimeRange(): int
-    {
-        return 12; // hours
-    }
+    private ?Collection $cachedInThroughputs = null;
 
-    public function getStartTime(int $timeRange): string
-    {
-        if ($timeRange < 1) {
-            $timeRange = self::getDefaultTimeRange();
-        }
+    private ?string $cachedInThroughputDevice = null;
 
-        return Carbon::now()->subHours($timeRange)->format('H:i:s');
-    }
+    private ?string $cachedInThroughputInterface = null;
 
-    public function getEndTime(): string
-    {
-        return Carbon::now()->format('H:i:s');
-    }
+    private ?Collection $cachedOutThroughputs = null;
+
+    private ?string $cachedOutThroughputDevice = null;
+
+    private ?string $cachedOutThroughputInterface = null;
+
+    private ?Collection $cachedBuildInformation = null;
 
     public function getTimeFilterQueryParams(int $timeRange): string
     {
-        $date = self::getDate();
-        $start = $date.'T'.self::getStartTime($timeRange);
-        $end = $date.'T'.self::getEndTime();
+        $start = now()->subHours($timeRange)->format('Y-m-d').'T'.now()->subHours($timeRange)->format('H:i:s');
+        $end = now()->format('Y-m-d').'T'.now()->format('H:i:s');
 
         return "?start_time=$start%2B07:00&end_time=$end%2B07:00";
     }
 
     public function getInThroughputs(
-        string $device = 'R-A',
-        string $interface = 'GigabitEthernet1',
+        string $device,
+        string $interface,
         int $timeRange = 12, // hours
-        int $amount = 32,
-        int $retries = 0,
-    ): array {
-        $response = Http::withToken(auth()->user()?->retia_api_token)
-            ->get(config('services.retia_api.url')."device/$device/interface/$interface/in_throughput".self::getTimeFilterQueryParams($timeRange));
-
-        if ($response->status() === 401 && $retries < config('app.max_request_retries')) {
-            auth()->user()?->refreshRetiaApiToken();
-
-            return $this->getInThroughputs($device, $interface, $timeRange, $amount, $retries++);
+        int $amount = 10,
+    ): Collection {
+        if (
+            ! empty($this->cachedInThroughputs)
+            && $this->cachedInThroughputDevice === $device
+            && $this->cachedInThroughputInterface === $interface
+        ) {
+            return $this->cachedInThroughputs;
         }
 
-        $result = $response->status() === 200 ? $response->json() : [];
+        $response = $this->withToken()
+            ->get(config('services.retia_api.url')."device/$device/interface/$interface/in_throughput".$this->getTimeFilterQueryParams($timeRange));
+
+        $this->authorize($response);
+
+        $response = $response->ok() ? $response->json() : [];
 
         if ($amount > 0) {
-            $result = array_slice($result, -$amount, $amount);
+            $result = array_slice($response, -$amount, $amount);
         }
 
         for ($i = 0; $i < count($result); $i++) {
-            $result[$i][1] = round((float) $result[$i][1], 2);
+            $result[$i][1] = (int) ceil((float) $result[$i][1]);
         }
 
-        return $result;
+        $this->cachedInThroughputDevice === $device;
+
+        $this->cachedInThroughputInterface === $interface;
+
+        return $this->cachedInThroughputs = collect($result);
     }
 
     public function getOutThroughputs(
-        string $device = 'R-A',
-        string $interface = 'GigabitEthernet1',
+        string $device,
+        string $interface,
         int $timeRange = 12, // hours
-        int $amount = 32,
-        int $retries = 0,
-    ): array {
-        $response = Http::withToken(auth()->user()?->retia_api_token)
-            ->get(config('services.retia_api.url')."device/$device/interface/$interface/out_throughput".self::getTimeFilterQueryParams($timeRange));
-
-        if ($response->status() === 401 && $retries < config('app.max_request_retries')) {
-            auth()->user()?->refreshRetiaApiToken();
-
-            return $this->getOutThroughputs($device, $interface, $timeRange, $amount, $retries++);
+        int $amount = 10,
+    ): Collection {
+        if (
+            ! empty($this->cachedOutThroughputs)
+            && $this->cachedOutThroughputDevice === $device
+            && $this->cachedOutThroughputInterface === $interface
+        ) {
+            return $this->cachedInThroughputs;
         }
 
-        $result = $response->status() === 200 ? $response->json() : [];
+        $response = $this->withToken()
+            ->get(config('services.retia_api.url')."device/$device/interface/$interface/out_throughput".$this->getTimeFilterQueryParams($timeRange));
+
+        $this->authorize($response);
+
+        $response = $response->ok() ? $response->json() : [];
 
         if ($amount > 0) {
-            $result = array_slice($result, -$amount, $amount);
+            $result = array_slice($response, -$amount, $amount);
+        }
+
+        if ($amount > 0) {
+            $result = array_slice($response, -$amount, $amount);
         }
 
         for ($i = 0; $i < count($result); $i++) {
-            $result[$i][1] = round((float) $result[$i][1], 2);
+            $result[$i][1] = (int) ceil((float) $result[$i][1]);
         }
 
-        return $result;
+        $this->cachedOutThroughputDevice === $device;
+
+        $this->cachedOutThroughputInterface === $interface;
+
+        return $this->cachedOutThroughputs = collect($result);
     }
 
-    public function getBuildInformation(int $retries = 0): array
+    public function getBuildInformation(): Collection
     {
-        $response = Http::withToken(auth()->user()?->retia_api_token)
-            ->get(config('services.retia_api.url').'monitoring/buildinfo');
-
-        if ($response->status() === 401 && $retries < config('app.max_request_retries')) {
-            auth()->user()?->refreshRetiaApiToken();
-
-            return $this->getBuildInformation($retries++);
+        if (! empty($this->cachedBuildInformation)) {
+            return $this->cachedBuildInformation;
         }
 
-        if ($response->status() !== 200) {
-            return [];
-        }
-
-        return $response->json();
+        return $this->cachedBuildInformation = $this->get('monitoring/buildinfo');
     }
 }

@@ -19,17 +19,18 @@
                                 <label for="Cisco"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Cisco" checked="true" />
+                                            class="size-4 rounded border-gray-300" id="Cisco"
+                                            wire:model="filters.brands.cisco" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-gray-900"> Cisco </strong>
-                                        <!-- <p class="mt-1 text-pretty text-sm text-gray-700"> Cisco's networking products and solutions designed for companies of all sizes. </p> -->
                                     </div>
                                 </label>
                                 <label for="Mikrotik"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Mikrotik" />
+                                            class="size-4 rounded border-gray-300" id="Mikrotik"
+                                            wire:model="filters.brands.mikrotik" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-gray-900"> Mikrotik </strong>
@@ -38,7 +39,8 @@
                                 <label for="Juniper"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Juniper" />
+                                            class="size-4 rounded border-gray-300" id="Juniper"
+                                            wire:model="filters.brands.juniper" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="text-pretty font-medium text-gray-900"> Juniper </strong>
@@ -62,7 +64,8 @@
                                 <label for="Router"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Router" checked="true" />
+                                            class="size-4 rounded border-gray-300" id="Router"
+                                            wire:model="filters.types.router" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-gray-900"> Router </strong>
@@ -71,7 +74,8 @@
                                 <label for="Access Point"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Access Point" />
+                                            class="size-4 rounded border-gray-300" id="Access Point"
+                                            wire:model="filters.types.access_point" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-gray-900"> Access Point </strong>
@@ -80,7 +84,8 @@
                                 <label for="Programmable Switch"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Programmable Switch" />
+                                            class="size-4 rounded border-gray-300" id="Programmable Switch"
+                                            wire:model="filters.types.programmable_switch" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="text-pretty font-medium text-gray-900"> Programmable Switch
@@ -105,7 +110,8 @@
                                 <label for="Running"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Running" checked="true" />
+                                            class="size-4 rounded border-gray-300" id="Running"
+                                            wire:model="filters.statuses.running" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-green-600"> 🟢 Running </strong>
@@ -114,7 +120,8 @@
                                 <label for="Down"
                                     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50">
                                     <div class="flex items-center"> &#8203; <input type="checkbox"
-                                            class="size-4 rounded border-gray-300" id="Down" checked="true" />
+                                            class="size-4 rounded border-gray-300" id="Down"
+                                            wire:model="filters.statuses.down" wire:change="filter" />
                                     </div>
                                     <div>
                                         <strong class="font-medium text-red-600"> 🔴 Down </strong>
@@ -126,7 +133,7 @@
                 </div>
             </div>
             <div class="w-full md:w-3/4 px-4">
-                @livewire('components.table', $tableData)
+                <livewire:components.table :data="$tableData" @table-updated="$refresh" />
             </div>
         </div>
     </div>

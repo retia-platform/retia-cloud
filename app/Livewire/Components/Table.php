@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Components;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Table extends Component
@@ -11,9 +13,9 @@ class Table extends Component
 
     public string $pluralTitle = 'Items';
 
-    public array $columns = [];
+    public Collection $columns;
 
-    public array $items = [];
+    public Collection $items;
 
     public string $detailRoute = '';
 
@@ -29,29 +31,25 @@ class Table extends Component
 
     public bool $paginate = true;
 
-    public function mount(
-        string $title = 'Item',
-        array $columns = [],
-        array $items = [],
-        string $detailRoute = 'login',
-        string $storeRoute = 'login',
-        string $updateRoute = 'login',
-        bool $actionable = true,
-        bool $deleteable = true,
-        bool $exportable = true,
-        bool $paginate = true,
-    ) {
-        $this->title = Str::singular($title);
-        $this->pluralTitle = Str::plural($title);
-        $this->columns = $columns;
-        $this->items = $items;
-        $this->detailRoute = $detailRoute;
-        $this->storeRoute = $storeRoute;
-        $this->updateRoute = $updateRoute;
-        $this->actionable = $actionable;
-        $this->deleteable = $deleteable;
-        $this->exportable = $exportable;
-        $this->paginate = $paginate;
+    #[On('table-item-updated')]
+    public function updateItems(array $items)
+    {
+        $this->items = collect($items);
+    }
+
+    public function mount(array $data)
+    {
+        $this->title = Str::singular($data['title']);
+        $this->pluralTitle = Str::plural($data['title']);
+        $this->columns = $data['columns'];
+        $this->items = $data['items'] ?? collect();
+        $this->detailRoute = $data['detailRoute'];
+        $this->storeRoute = $data['storeRoute'];
+        $this->updateRoute = $data['updateRoute'];
+        $this->actionable = $data['actionable'];
+        $this->deleteable = $data['deleteable'];
+        $this->exportable = $data['exportable'];
+        $this->paginate = $data['paginate'];
 
         if ($this->deleteable === false && empty($this->updateRoute) && empty($this->detailRoute)) {
             $this->actionable = false;
