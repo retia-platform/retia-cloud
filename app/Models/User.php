@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -64,14 +66,24 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function role(): Attribute
+    {
+        return Attribute::get(fn () => Role::findByName($this->getRoleNames()->first()) ?? Role::findByName('Technician') );
+    }
+
+    public function isSuperAdministrator(): bool
+    {
+        return $this->hasRole('Super Administrator');
+    }
+
     public function isAdministrator(): bool
     {
-        return true;
+        return $this->hasRole('Administrator');
     }
 
     public function isTechnician(): bool
     {
-        return ! $this->isAdministrator();
+        return $this->hasRole('Technician');
     }
 
     public function refreshRetiaApiToken(): self
