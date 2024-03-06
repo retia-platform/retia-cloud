@@ -10,8 +10,8 @@ class DatabaseSeeder extends Seeder
      * The database seeders.
      */
     private array $seeders = [
-        User\UserSeeder::class,
         User\RoleSeeder::class,
+        User\UserSeeder::class,
     ];
 
     /**
