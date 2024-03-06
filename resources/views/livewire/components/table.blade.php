@@ -15,7 +15,7 @@
                     </a>
                 @endif
                 @if ($exportable)
-                    <button
+                    <button wire:click="$toggle('showingExportModal')"
                         class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
                         Export {{ $pluralTitle }}
                     </button>
@@ -25,7 +25,8 @@
         <div class="w-full md:w-1/3">
             <div class="relative">
                 <label for="Search" class="sr-only"> Search </label>
-                <input type="text" id="Search" placeholder="Search {{ $title }}..."
+                <input type="text" id="Search" wire:model.live="searchTerm" wire:change.live="search"
+                    placeholder="Search {{ $title }}..."
                     class="w-full rounded-md border-gray-200 py-2.5 pe-10 text-sm focus:ring-gray-600 focus:border-gray-600" />
                 <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
                     <button type="button" class="text-gray-600 hover:text-gray-700">
@@ -96,7 +97,7 @@
                                                     role="menuitem"> Edit {{ $title }} </a>
                                             </div>
                                             <div class="p-2">
-                                                <button type="button"
+                                                <button type="button" wire:click="$toggle('showingDeleteModal')"
                                                     class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
                                                     role="menuitem">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -158,4 +159,63 @@
             </div>
         @endif
     </div>
+    <!-- Export Modal -->
+
+    <form wire:submit="export">
+        <x-dialog-modal wire:key="export-modal" wire:model.live="showingExportModal">
+            <x-slot name="title">
+                {{ "Export $pluralTitle" }}
+            </x-slot>
+            <x-slot name="content">
+                <div>
+                    Export current data to your desired file format. Make sure to choose a
+                    proper export file format according to your needs.
+                </div>
+                <div class="w-full flex mt-4">
+                    <div class="w-full md:w-5/6">
+                        <label for="exportFileName" class="block text-xs font-medium text-gray-700"> File Name
+                        </label>
+                        <input type="text" id="ExportFileName" placeholder="Type a file name"
+                            wire:model="exportFileName"
+                            class="mt-1 w-full text-sm rounded-lg border-gray-300 text-gray-700 focus:ring-gray-600 focus:border-gray-600" />
+                        @error('exportFileName')
+                            <div class="mt-1">
+                                <span class="text-xs text-red-600">{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="w-full md:w-1/6 ml-4">
+                        <label for="exportFileFormat" class="block text-xs font-medium text-gray-700"> File Format
+                        </label>
+                        <select name="exportFileFormat" id="export-file-format-select" wire:model="exportFileFormat"
+                            class="mt-1 w-full text-sm rounded-lg border-gray-300 text-gray-700 focus:ring-gray-600 focus:border-gray-600">
+                            <option value="xlsx">xlsx</option>
+                            <option value="csv">csv</option>
+                            <option value="pdf">pdf</option>
+                        </select>
+                        @error('exportFileFormat')
+                            <div class="mt-1">
+                                <span class="text-xs text-red-600">{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div role="alert" class="rounded border-s-4 border-gray-500 bg-gray-50 p-4 mt-6">
+                    <p class="text-sm text-gray-700">
+                        System will start exporting and downloading the file after you click the <b>Export</b> button
+                        below. Export process time may take a while depending on the data size.
+                    </p>
+                </div>
+            </x-slot>
+            <x-slot name="footer">
+                <x-secondary-button wire:click="$toggle('showingExportModal')" wire:loading.attr="disabled"
+                    class="mr-4">
+                    {{ __('Close') }}
+                </x-secondary-button>
+                <x-button wire:loading.attr="disabled">
+                    {{ __('Export') }}
+                </x-button>
+            </x-slot>
+        </x-dialog-modal>
+    </form>
 </div>

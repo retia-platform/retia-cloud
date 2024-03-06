@@ -8,15 +8,12 @@ use App\Repositories\DeviceRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component implements TableComponent
 {
-    public string $exportFileName = 'devices';
-
-    public string $exportFileFormat = 'xlsx';
-
     public array $filters = [
         'brands' => [
             'cisco' => true,
@@ -101,12 +98,15 @@ class Index extends Component implements TableComponent
         $this->dispatch('table-item-updated', items: $this->getTableItems());
     }
 
-    public function export(): Response|BinaryFileResponse
+    #[On('table-exported')]
+    public function export(DeviceRepository $deviceRepository, string $fileName): Response|BinaryFileResponse
     {
-        return (new DeviceExport($this->devices))
-            ->download($this->exportFileName.'.'.$this->exportFileFormat);
+        $this->filter($deviceRepository);
+
+        return (new DeviceExport($this->devices))->download($fileName);
     }
 
+    #[On('table-item-deleted')]
     public function delete(DeviceRepository $deviceRepository, string $device)
     {
         $deviceRepository->deleteDevice($device);

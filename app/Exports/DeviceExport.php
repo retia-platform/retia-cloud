@@ -3,15 +3,18 @@
 namespace App\Exports;
 
 use App\Livewire\Device\Index;
-use App\Models\Device;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class DeviceExport implements FromCollection, WithHeadings, WithMapping
+class DeviceExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStyles
 {
     use Exportable;
 
@@ -40,15 +43,22 @@ class DeviceExport implements FromCollection, WithHeadings, WithMapping
         ];
     }
 
-    public function columnWidths(): array
+    public function styles($sheet): array
     {
         return [
-            'A' => 50,
-            'B' => 50,
-            'C' => 50,
-            'D' => 50,
-            'E' => 50,
-            'F' => 50,
+            1 => ['font' => ['bold' => true], 'alignment' => ['horizontal' => 'center']],
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'A' => NumberFormat::FORMAT_TEXT,
+            'B' => NumberFormat::FORMAT_TEXT,
+            'C' => NumberFormat::FORMAT_TEXT,
+            'D' => NumberFormat::FORMAT_TEXT,
+            'E' => NumberFormat::FORMAT_TEXT,
+            'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 
@@ -57,7 +67,7 @@ class DeviceExport implements FromCollection, WithHeadings, WithMapping
         return Index::getTableColumns();
     }
 
-    public function map(Device $device): array
+    public function map($device): array
     {
         return [
             $device->name,
