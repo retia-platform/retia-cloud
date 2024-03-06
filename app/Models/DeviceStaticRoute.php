@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Interfaces\APIContract;
 use App\Models\Base\APIModel;
 use Exception;
 use Illuminate\Support\Collection;
 
-class DeviceStaticRoute extends APIModel implements APIContract
+class DeviceStaticRoute extends APIModel
 {
     // main properties
     public Device $device;

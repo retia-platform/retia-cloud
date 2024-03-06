@@ -169,7 +169,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
     ])->toArray(),
@@ -199,5 +201,6 @@ return [
     */
 
     'max_request_retries' => (int) env('MAX_REQUEST_RETRIES', 2),
+    'supported_export_file_formats' => ['xlsx', 'csv', 'tsv', 'ods', 'pdf'],
 
 ];

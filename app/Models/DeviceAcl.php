@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Interfaces\APIContract;
 use App\Models\Base\APIModel;
 use Illuminate\Support\Collection;
 
-class DeviceAcl extends APIModel implements APIContract
+class DeviceAcl extends APIModel
 {
     // main properties
     private Device $device;

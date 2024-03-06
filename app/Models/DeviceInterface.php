@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Interfaces\APIContract;
 use App\Models\Base\APIModel;
 use Exception;
 use Illuminate\Support\Collection;
 
-class DeviceInterface extends APIModel implements APIContract
+class DeviceInterface extends APIModel
 {
     // main properties
     public Device $device;

@@ -2,9 +2,10 @@
 
 namespace App\Models\Base;
 
+use App\Interfaces\APIContract;
 use App\Traits\API;
 
-class APIModel
+abstract class APIModel implements APIContract
 {
     use API;
 

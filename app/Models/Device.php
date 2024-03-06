@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Interfaces\APIContract;
 use App\Models\Base\APIModel;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class Device extends APIModel implements APIContract
+class Device extends APIModel
 {
     // main properties
     public string $name;
@@ -215,6 +214,11 @@ class Device extends APIModel implements APIContract
         return $this->running;
     }
 
+    public function getId(): string|int
+    {
+        return $this->name;
+    }
+
     public function toArray(): array
     {
         return [
@@ -222,6 +226,7 @@ class Device extends APIModel implements APIContract
             'brand' => $this->brand,
             'type' => $this->type,
             'ip_address' => $this->ipAddress,
+            'running' => $this->isRunning(),
             'port' => $this->port,
             'username' => $this->username,
             'secret' => $this->secret,
@@ -229,10 +234,29 @@ class Device extends APIModel implements APIContract
             'login_banner' => $this->loginBanner,
             'motd_banner' => $this->motdBanner,
             'software_version' => $this->softwareVersion,
-            'running' => $this->isRunning(),
             'created_at' => $this->createdAt->toDateTimeString(),
             'updated_at' => $this->updatedAt->toDateTimeString(),
         ];
+    }
+
+    public static function synth(array $value): self
+    {
+        return new self(
+            $value['name'],
+            $value['brand'],
+            $value['type'],
+            $value['ip_address'],
+            $value['running'],
+            $value['port'],
+            $value['username'],
+            $value['secret'],
+            $value['sys_uptime'],
+            $value['login_banner'],
+            $value['motd_banner'],
+            $value['software_version'],
+            $value['created_at'],
+            $value['modified_at'],
+        );
     }
 
     /**

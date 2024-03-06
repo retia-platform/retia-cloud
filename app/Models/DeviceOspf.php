@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Interfaces\APIContract;
 use App\Models\Base\APIModel;
 use Illuminate\Support\Collection;
 
-class DeviceOspf extends APIModel implements APIContract
+class DeviceOspf extends APIModel
 {
     // main properties
     public Device $device;

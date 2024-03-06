@@ -15,7 +15,7 @@
                     </a>
                 @endif
                 @if ($exportable)
-                    <button wire:click="$toggle('showingExportModal')"
+                    <button wire:click="showExportModal"
                         class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
                         Export {{ $pluralTitle }}
                     </button>
@@ -25,8 +25,7 @@
         <div class="w-full md:w-1/3">
             <div class="relative">
                 <label for="Search" class="sr-only"> Search </label>
-                <input type="text" id="Search" wire:model.live="searchTerm" wire:change.live="search"
-                    placeholder="Search {{ $title }}..."
+                <input type="text" id="Search" wire:model.live="searchTerm" placeholder="Search {{ $title }}..."
                     class="w-full rounded-md border-gray-200 py-2.5 pe-10 text-sm focus:ring-gray-600 focus:border-gray-600" />
                 <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
                     <button type="button" class="text-gray-600 hover:text-gray-700">
@@ -97,7 +96,7 @@
                                                     role="menuitem"> Edit {{ $title }} </a>
                                             </div>
                                             <div class="p-2">
-                                                <button type="button" wire:click="$toggle('showingDeleteModal')"
+                                                <button type="button" wire:click="showDeleteModal({{ json_encode($item) }})"
                                                     class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
                                                     role="menuitem">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -189,9 +188,9 @@
                         </label>
                         <select name="exportFileFormat" id="export-file-format-select" wire:model="exportFileFormat"
                             class="mt-1 w-full text-sm rounded-lg border-gray-300 text-gray-700 focus:ring-gray-600 focus:border-gray-600">
-                            <option value="xlsx">xlsx</option>
-                            <option value="csv">csv</option>
-                            <option value="pdf">pdf</option>
+                            @foreach ($supportedExportFileFormats as $format)
+                                <option value="{{ $format }}">{{ $format }}</option>
+                            @endforeach
                         </select>
                         @error('exportFileFormat')
                             <div class="mt-1">
@@ -208,7 +207,7 @@
                 </div>
             </x-slot>
             <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('showingExportModal')" wire:loading.attr="disabled"
+                <x-secondary-button wire:click="hideExportModal" wire:loading.attr="disabled"
                     class="mr-4">
                     {{ __('Close') }}
                 </x-secondary-button>

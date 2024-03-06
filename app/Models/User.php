@@ -64,6 +64,16 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function isAdministrator(): bool
+    {
+        return true;
+    }
+
+    public function isTechnician(): bool
+    {
+        return ! $this->isAdministrator();
+    }
+
     public function refreshRetiaApiToken(): self
     {
         $retiaApiToken = Http::post(config('services.retia_api.url').'api/token', [
