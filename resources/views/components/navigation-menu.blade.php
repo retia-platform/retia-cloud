@@ -117,7 +117,6 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
                             </div>
@@ -125,6 +124,24 @@
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+
+                            @can('access pulse')
+                                <x-dropdown-link href="{{ route('pulse') }}">
+                                    {{ __('App Usage Monitoring') }}
+                                </x-dropdown-link>
+                            @endcan
+
+                            @can('access telescope')
+                                <x-dropdown-link href="{{ route('telescope') }}">
+                                    {{ __('System Monitoring') }}
+                                </x-dropdown-link>
+                            @endcan
+
+                            @can('access horizon')
+                                <x-dropdown-link href="{{ route('horizon.index') }}">
+                                    {{ __('System Job Monitoring') }}
+                                </x-dropdown-link>
+                            @endcan
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -135,7 +152,6 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
-
                                 <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>

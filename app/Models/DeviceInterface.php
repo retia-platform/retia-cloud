@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\APIModel;
+use App\Repositories\DeviceRepository;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -131,9 +132,15 @@ class DeviceInterface extends APIModel
         return $this->running;
     }
 
+    public function getId(): string|int
+    {
+        return $this->name;
+    }
+
     public function toArray(): array
     {
         return [
+            'device_id' => $this->device->getId(),
             'name' => $this->name,
             'type' => $this->type,
             'ip_address' => $this->ipAddress,
@@ -141,5 +148,20 @@ class DeviceInterface extends APIModel
             'enabled' => $this->isEnabled(),
             'running' => $this->isRunning(),
         ];
+    }
+
+    public static function synth(array $value): self
+    {
+        $deviceRepostiory = app(DeviceRepository::class);
+
+        return new self(
+            $deviceRepostiory->findDevice($value['device_id']),
+            $value['name'],
+            $value['type'],
+            $value['ip_address'],
+            $value['netmask'],
+            $value['enabled'],
+            $value['running'],
+        );
     }
 }

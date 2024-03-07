@@ -13,6 +13,8 @@ class DeviceRepository
 {
     use Requestable;
 
+    private ?Device $cachedDevice = null;
+
     private ?Collection $cachedDevices = null;
 
     private ?Collection $cachedAcls = null;
@@ -38,7 +40,11 @@ class DeviceRepository
 
     public function getDevice(string $name): Device
     {
-        return Device::find($name);
+        if ($name === $this->cachedDevice?->name) {
+            return $this->cachedDevice;
+        }
+
+        return $this->cachedDevice = Device::find($name);
     }
 
     public function getDeviceAmount(): int

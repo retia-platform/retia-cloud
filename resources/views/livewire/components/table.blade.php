@@ -25,7 +25,8 @@
         <div class="w-full md:w-1/3">
             <div class="relative">
                 <label for="Search" class="sr-only"> Search </label>
-                <input type="text" id="Search" wire:model.live="searchTerm" placeholder="Search {{ $title }}..."
+                <input type="text" id="Search" wire:model.live="searchTerm"
+                    placeholder="Search {{ $title }}..."
                     class="w-full rounded-md border-gray-200 py-2.5 pe-10 text-sm focus:ring-gray-600 focus:border-gray-600" />
                 <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
                     <button type="button" class="text-gray-600 hover:text-gray-700">
@@ -96,7 +97,8 @@
                                                     role="menuitem"> Edit {{ $title }} </a>
                                             </div>
                                             <div class="p-2">
-                                                <button type="button" wire:click="showDeleteModal({{ json_encode($item) }})"
+                                                <button type="button"
+                                                    wire:click="showDeleteModal({{ json_encode($item) }})"
                                                     class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
                                                     role="menuitem">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -207,8 +209,7 @@
                 </div>
             </x-slot>
             <x-slot name="footer">
-                <x-secondary-button wire:click="hideExportModal" wire:loading.attr="disabled"
-                    class="mr-4">
+                <x-secondary-button wire:click="hideExportModal" wire:loading.attr="disabled" class="mr-4">
                     {{ __('Close') }}
                 </x-secondary-button>
                 <x-button wire:loading.attr="disabled">

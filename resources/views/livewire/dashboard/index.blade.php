@@ -263,6 +263,77 @@
                 </div>
             </div>
         </div>
+        <div class="w-full flex">
+            @can('access pulse')
+                <div class="w-full md:w-1/3 mt-12">
+                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
+                        <div class="py-4 px-5 flex">
+                            <div class="w-full md:w-1/2">
+                                <b class="text-lg">{{ __('Pulse Analytics') }}</b>
+                            </div>
+                            <div class="w-full md:w-1/2 flex justify-end">
+                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pt-2 pb-4 px-5">
+
+                        </div>
+                    </div>
+                </div>
+            @endcan
+            @can('access telescope')
+                <div class="w-full md:w-1/3 mt-12">
+                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
+                        <div class="py-4 px-5 flex">
+                            <div class="w-full md:w-1/2">
+                                <b class="text-lg">{{ __('Telescope Analytics') }}</b>
+                            </div>
+                            <div class="w-full md:w-1/2 flex justify-end">
+                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pt-2 pb-4 px-5">
+
+                        </div>
+                    </div>
+                </div>
+            @endcan
+            @can('access horizon')
+                <div class="w-full md:w-1/3 mt-12">
+                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
+                        <div class="py-4 px-5 flex">
+                            <div class="w-full md:w-1/2">
+                                <b class="text-lg">{{ __('Horizon Analytics') }}</b>
+                            </div>
+                            <div class="w-full md:w-1/2 flex justify-end">
+                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pt-2 pb-4 px-5">
+
+                        </div>
+                    </div>
+                </div>
+            @endcan
+        </div>
         <div class="w-full flex pt-12">
             <div class="w-full md:w-1/3">
                 <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">

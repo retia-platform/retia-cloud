@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function role(): Attribute
     {
-        return Attribute::get(fn () => Role::findByName($this->getRoleNames()->first()) ?? Role::findByName('Technician') );
+        return Attribute::get(fn () => Role::findByName($this->getRoleNames()->first()) ?? Role::findByName('Technician'));
     }
 
     public function isSuperAdministrator(): bool

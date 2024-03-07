@@ -17,14 +17,12 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         // Telescope::night();
 
+        // $isLocal = $this->app->environment('local');
+
         $this->hideSensitiveRequestDetails();
 
-        // $isLocal = $this->app->environment('local');
-        $isLocal = true;
-
-        Telescope::filter(function (IncomingEntry $entry) use ($isLocal) {
-            return $isLocal ||
-                   $entry->isReportableException() ||
+        Telescope::filter(function (IncomingEntry $entry) {
+            return $entry->isReportableException() ||
                    $entry->isFailedRequest() ||
                    $entry->isFailedJob() ||
                    $entry->isScheduledTask() ||
@@ -37,10 +35,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function hideSensitiveRequestDetails(): void
     {
-        // if ($this->app->environment('local')) {
-        //     return;
-        // }
-
         Telescope::hideRequestParameters(['_token']);
 
         Telescope::hideRequestHeaders([
@@ -58,7 +52,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewTelescope', function (?User $user) {
-            return $user?->isAdministrator();
+            return $user?->can('access telescope');
         });
     }
 }
