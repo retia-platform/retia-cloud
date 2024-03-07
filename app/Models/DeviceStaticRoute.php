@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\APIModel;
+use App\Repositories\DeviceRepository;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -82,6 +83,11 @@ class DeviceStaticRoute extends APIModel
         throw new Exception(self::getResourceName().' refresh action is not supported');
     }
 
+    public function getId(): string|int
+    {
+        return $this->prefix;
+    }
+
     public function toArray(): array
     {
         return [
@@ -89,5 +95,17 @@ class DeviceStaticRoute extends APIModel
             'mask' => $this->mask,
             'forwards' => $this->forwards->toArray(),
         ];
+    }
+
+    public static function synth(array $value): self
+    {
+        $deviceRepostiory = app(DeviceRepository::class);
+
+        return new self(
+            $deviceRepostiory->findDevice($value['device_id']),
+            $value['prefix'],
+            $value['mask'],
+            $value['forwards'],
+        );
     }
 }

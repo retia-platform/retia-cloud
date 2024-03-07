@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\APIModel;
+use App\Repositories\DeviceRepository;
 use Illuminate\Support\Collection;
 
 class DeviceAcl extends APIModel
@@ -105,6 +106,11 @@ class DeviceAcl extends APIModel
         $this->applyToInterfaces = collect($acl['apply_to_interface'] ?? []);
     }
 
+    public function getId(): string|int
+    {
+        return $this->name;
+    }
+
     public function toArray(): array
     {
         return [
@@ -112,5 +118,17 @@ class DeviceAcl extends APIModel
             'rules' => $this->rules->toArray(),
             'apply_to_interfaces' => $this->applyToInterfaces->toArray(),
         ];
+    }
+
+    public static function synth(array $value): self
+    {
+        $deviceRepostiory = app(DeviceRepository::class);
+
+        return new self(
+            $deviceRepostiory->findDevice($value['device_id']),
+            $value['name'],
+            $value['rules'],
+            $value['apply_to_interfaces'],
+        );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\APIModel;
+use App\Repositories\DeviceRepository;
 use Illuminate\Support\Collection;
 
 class DeviceOspf extends APIModel
@@ -127,6 +128,11 @@ class DeviceOspf extends APIModel
         return $this->defaultInformationOriginate;
     }
 
+    public function getId(): string|int
+    {
+        return $this->id;
+    }
+
     public function toArray(): array
     {
         return [
@@ -136,5 +142,18 @@ class DeviceOspf extends APIModel
             'redistributes' => $this->redistributes->toArray(),
             'default_information_originate' => $this->isDefaultInformationOriginate(),
         ];
+    }
+
+    public static function synth(array $value): self
+    {
+        $deviceRepostiory = app(DeviceRepository::class);
+
+        return new self(
+            $deviceRepostiory->findDevice($value['device_id']),
+            $value['networks'],
+            $value['passive_interfaces'],
+            $value['redistributes'],
+            $value['default_information_originate'],
+        );
     }
 }
