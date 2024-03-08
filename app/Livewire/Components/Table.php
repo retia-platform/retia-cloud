@@ -17,6 +17,8 @@ class Table extends Component
     use HasExportModal;
     use Searchable;
 
+    public string $class;
+
     public string $title;
 
     public string $pluralTitle;

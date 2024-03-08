@@ -39,6 +39,7 @@ class RoleSeeder extends Seeder
             'access pulse',
             'access telescope',
             'access horizon',
+            'access health check',
         ]);
 
         // device permissions

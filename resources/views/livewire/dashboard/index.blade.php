@@ -82,7 +82,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                         </svg>
-
                         <p class="flex gap-2 text-xs">
                             <span class="font-bold"> {{ $monthlyErrorLogAmount }} </span>
                             <span class="text-gray-500"> Log with Error Severity </span>
@@ -196,20 +195,12 @@
         <div class="w-full pt-12">
             <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
                 <div class="pt-6 pb-4 px-5 mb-2 flex">
-                    <div class="w-full md:w-1/2 pt-1">
-                        <b class="text-lg">{{ __('Top 10 Devices') }}</b>
+                    <div class="w-full md:w-2/3 pt-1">
+                        <b class="text-lg">Top 10 Devices</b>
                     </div>
-                    <div class="w-full md:w-1/2 flex justify-end">
-                        <a wire:navigate href="{{ route('devices') }}"
-                            class="group relative inline-flex items-center overflow-hidden rounded border border-current px-7 py-2 text-gray-600 focus:outline-none focus:ring active:text-gray-500">
-                            <span class="absolute -start-full transition-all group-hover:start-3">
-                                <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </span>
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> See All Devices </span>
+                    <div class="w-full md:w-1/3 flex justify-end">
+                        <a wire:navigate href="{{ route('devices') }}">
+                            <x-arrow-button>See All Devices</x-arrow-button>
                         </a>
                     </div>
                 </div>
@@ -263,310 +254,51 @@
                 </div>
             </div>
         </div>
-        <div class="w-full flex">
+        <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-12">
             @can('access pulse')
-                <div class="w-full md:w-1/3 mt-12">
-                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                        <div class="py-4 px-5 flex">
-                            <div class="w-full md:w-1/2">
-                                <b class="text-lg">{{ __('Pulse Analytics') }}</b>
-                            </div>
-                            <div class="w-full md:w-1/2 flex justify-end">
-                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="pt-2 pb-4 px-5">
-
-                        </div>
-                    </div>
-                </div>
+                <livewire:components.third-party-service-information-card wire:key="third-party-service-information-card-1"
+                    title="System Usage" class="mt-12" overview="Check the current system usages and performances."
+                    description="Get the latest system usage analytics using data that processed by Laravel Pulse.<br /><br />Laravel Pulse used to monitor the current Retia Cloud system usage anomaly and performance issues. The collected data are managed and processed by the Laravel Pulse."
+                    button="Open Pulse" documentationURL="https://pulse.laravel.com" :url="route('pulse')" />
             @endcan
             @can('access telescope')
-                <div class="w-full md:w-1/3 mt-12">
-                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                        <div class="py-4 px-5 flex">
-                            <div class="w-full md:w-1/2">
-                                <b class="text-lg">{{ __('Telescope Analytics') }}</b>
-                            </div>
-                            <div class="w-full md:w-1/2 flex justify-end">
-                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="pt-2 pb-4 px-5">
-
-                        </div>
-                    </div>
-                </div>
+                <livewire:components.third-party-service-information-card wire:key="third-party-service-information-card-2"
+                    title="System Log" class="mt-12" overview="Check the current system log data."
+                    description="Get the latest system logs using data that processed by Laravel Telescope.<br /><br />Laravel Telescope used to monitor the current Retia Cloud system log to help you debug and trace any error or bug that happened. The collected data are managed and processed by the Laravel Telescope."
+                    button="Open Telescope" documentationURL="https://github.com/laravel/telescope" :url="route('telescope')" />
             @endcan
             @can('access horizon')
-                <div class="w-full md:w-1/3 mt-12">
-                    <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                        <div class="py-4 px-5 flex">
-                            <div class="w-full md:w-1/2">
-                                <b class="text-lg">{{ __('Horizon Analytics') }}</b>
-                            </div>
-                            <div class="w-full md:w-1/2 flex justify-end">
-                                <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="pt-2 pb-4 px-5">
-
-                        </div>
-                    </div>
-                </div>
+                <livewire:components.third-party-service-information-card wire:key="third-party-service-information-card-3"
+                    title="System Process" class="mt-12" overview="Check the current system processes."
+                    description="Get the current system process information using data that processed by Laravel Horizon.<br /><br />Laravel Horizon used to monitor the current Retia Cloud system process to help you debug the process / job that running in background. The collected data are managed and processed by the Laravel Horizon."
+                    button="Open Horizon" documentationURL="https://github.com/laravel/horizon" :url="route('horizon.index')" />
+            @endcan
+            @can('access health check')
+                <livewire:components.third-party-service-information-card wire:key="third-party-service-information-card-4"
+                    title="System Health" class="mt-12" overview="Check the current system health statistics."
+                    description="Get the latest system health statistics using data that processed by Laravel Health.<br /><br />Laravel Health used to monitor the current Retia Cloud overall system health. The collected data are managed and processed by the Laravel Health."
+                    button="Open Health" documentationURL="https://github.com/spatie/laravel-health" :url="route('health')" />
             @endcan
         </div>
-        <div class="w-full flex pt-12">
-            <div class="w-full md:w-1/3">
-                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                    <div class="py-4 px-5 flex">
-                        <div class="w-full md:w-1/2">
-                            <b class="text-lg">{{ __('Prometheus') }}</b>
-                        </div>
-                        <div class="w-full md:w-1/2 flex justify-end">
-                            <button type="button" wire:click="$toggle('showingPrometheusBuildInformationModal')">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="pt-2 pb-4 px-5">
-                        <div class="flow-root">
-                            <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['prometheus']['version'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Go Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['prometheus']['goVersion'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Revision</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['prometheus']['revision'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 ml-12">
-                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                    <div class="py-4 px-5 flex">
-                        <div class="w-full md:w-1/2">
-                            <b class="text-lg">{{ __('Alert Manager') }}</b>
-                        </div>
-                        <div class="w-full md:w-1/2 flex justify-end">
-                            <button type="button" wire:click="$toggle('showingAlertManagerBuildInformationModal')">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="pt-2 pb-4 px-5">
-                        <div class="flow-root">
-                            <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['alertmanager']['version'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Go Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['alertmanager']['goVersion'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Revision</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['alertmanager']['revision'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 ml-12">
-                <div class="bg-white overflow-hidden px-6 py-4 shadow rounded-lg">
-                    <div class="py-4 px-5 flex">
-                        <div class="w-full md:w-1/2">
-                            <b class="text-lg">{{ __('SNMP Exporter') }}</b>
-                        </div>
-                        <div class="w-full md:w-1/2 flex justify-end">
-                            <button type="button" wire:click="$toggle('showingSnmpExporterBuildInformationModal')">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="pt-2 pb-4 px-5">
-                        <div class="flow-root">
-                            <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['snmpexporter']['version'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Go Version</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['snmpexporter']['goVersion'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900">Revision</dt>
-                                    <dd class="text-gray-700 sm:col-span-2 overflow-auto">
-                                        <code>{{ $buildInformation['snmpexporter']['revision'] ?? 'unknown' }}</code>
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <livewire:components.dependency-information-card wire:key="dependency-information-card-1"
+                title="Prometheus" class="mt-12"
+                description="Retia uses Prometheus to monitor and get the latest data from Retia Engine and Network Devices that already online in the system."
+                url="https://prometheus.io" :version="$buildInformation['prometheus']['version'] ?? 'unknown'" :go-version="$buildInformation['prometheus']['goVersion'] ?? 'unknown'" :revision="$buildInformation['prometheus']['revision'] ?? 'unknown'" />
+            <livewire:components.dependency-information-card wire:key="dependency-information-card-2"
+                title="Alert Manager" class="mt-12"
+                description="Retia uses Alert Manager to handle alerts sent by client applications such as the Prometheus server. This software also manage and persist the alert and notification data to be processed when system needed to."
+                url="https://prometheus.io/docs/alerting/latest/alertmanager" :version="$buildInformation['alertmanager']['version'] ?? 'unknown'" :go-version="$buildInformation['alertmanager']['goVersion'] ?? 'unknown'"
+                :revision="$buildInformation['alertmanager']['revision'] ?? 'unknown'" />
+            <livewire:components.dependency-information-card wire:key="dependency-information-card-3"
+                title="SNMP Exporter" class="mt-12"
+                description="Retia uses SNMP Exporter to expose SNMP data in a format which Prometheus can ingest. This software needed to interact within several components in the system via SNMP protocol."
+                url="https://github.com/prometheus/snmp_exporter" :version="$buildInformation['snmpexporter']['version'] ?? 'unknown'" :go-version="$buildInformation['snmpexporter']['goVersion'] ?? 'unknown'"
+                :revision="$buildInformation['snmpexporter']['revision'] ?? 'unknown'" />
         </div>
     </div>
-    <!-- Prometheus Build Information Modal -->
-    <x-dialog-modal wire:key="prometheus-build-information-modal"
-        wire:model.live="showingPrometheusBuildInformationModal">
-        <x-slot name="title">
-            {{ __('Prometheus') }}
-        </x-slot>
-        <x-slot name="content">
-            {{ __('Retia uses Prometheus to monitor and get the latest data from Retia Engine and Network Devices that already online in the system.') }}
-            <div role="alert" class="rounded border-s-4 border-orange-500 bg-orange-50 p-4 mt-4">
-                <div class="flex items-center gap-2 text-orange-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                        <path fill-rule="evenodd"
-                            d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <strong class="block font-medium"> Retia Engine's Dependency </strong>
-                </div>
-                <p class="mt-2 text-sm text-red-700">
-                    This is a core dependency that run by Retia Engine. Custom configuration, upgrade, or modification
-                    may affect the whole system performance and accessibility.
-                </p>
-            </div>
-        </x-slot>
-        <x-slot name="footer">
-            <x-secondary-button wire:click="$toggle('showingPrometheusBuildInformationModal')"
-                wire:loading.attr="disabled" class="mr-4">
-                {{ __('Close') }}
-            </x-secondary-button>
-            <a href="https://prometheus.io" target="_blank" rel="noopener noreferrer">
-                <x-button wire:loading.attr="disabled">
-                    {{ __('Read More') }}
-                </x-button>
-            </a>
-        </x-slot>
-    </x-dialog-modal>
-    <!-- Alert Manager Build Information Modal -->
-    <x-dialog-modal wire:key="alert-manager-build-information-modal"
-        wire:model.live="showingAlertManagerBuildInformationModal">
-        <x-slot name="title">
-            {{ __('Alert Manager') }}
-        </x-slot>
-        <x-slot name="content">
-            {{ __('Retia uses Alert Manager to handle alerts sent by client applications such as the Prometheus server. This software also manage and persist the alert and notification data to be processed when system needed to.') }}
-            <div role="alert" class="rounded border-s-4 border-orange-500 bg-orange-50 p-4 mt-4">
-                <div class="flex items-center gap-2 text-orange-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                        <path fill-rule="evenodd"
-                            d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <strong class="block font-medium"> Retia Engine's Dependency </strong>
-                </div>
-                <p class="mt-2 text-sm text-red-700">
-                    This is a core dependency that run by Retia Engine. Custom configuration, upgrade, or modification
-                    may affect the whole system performance and accessibility.
-                </p>
-            </div>
-        </x-slot>
-        <x-slot name="footer">
-            <x-secondary-button wire:click="$toggle('showingAlertManagerBuildInformationModal')"
-                wire:loading.attr="disabled" class="mr-4">
-                {{ __('Close') }}
-            </x-secondary-button>
-            <a href="https://prometheus.io/docs/alerting/latest/alertmanager" target="_blank"
-                rel="noopener noreferrer">
-                <x-button wire:loading.attr="disabled">
-                    {{ __('Read More') }}
-                </x-button>
-            </a>
-        </x-slot>
-    </x-dialog-modal>
-    <!-- SNMP Exporter Build Information Modal -->
-    <x-dialog-modal wire:key="snmp-exporter-build-information-modal"
-        wire:model.live="showingSnmpExporterBuildInformationModal">
-        <x-slot name="title">
-            {{ __('SNMP Exporter') }}
-        </x-slot>
-        <x-slot name="content">
-            {{ __('Retia uses SNMP Exporter to expose SNMP data in a format which Prometheus can ingest. This software needed to interact within several components in the system via SNMP protocol.') }}
-            <div role="alert" class="rounded border-s-4 border-orange-500 bg-orange-50 p-4 mt-4">
-                <div class="flex items-center gap-2 text-orange-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                        <path fill-rule="evenodd"
-                            d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <strong class="block font-medium"> Retia Engine's Dependency </strong>
-                </div>
-                <p class="mt-2 text-sm text-red-700">
-                    This is a core dependency that run by Retia Engine. Custom configuration, upgrade, or modification
-                    may affect the whole system performance and accessibility.
-                </p>
-            </div>
-        </x-slot>
-        <x-slot name="footer">
-            <x-secondary-button wire:click="$toggle('showingSnmpExporterBuildInformationModal')"
-                wire:loading.attr="disabled" class="mr-4">
-                {{ __('Close') }}
-            </x-secondary-button>
-            <a href="https://github.com/prometheus/snmp_exporter" target="_blank" rel="noopener noreferrer">
-                <x-button wire:loading.attr="disabled">
-                    {{ __('Read More') }}
-                </x-button>
-            </a>
-        </x-slot>
-    </x-dialog-modal>
+    <!-- Third Party Service Information Modal -->
+    <livewire:components.third-party-service-information-modal wire:key="third-party-service-information-modal" />
+    <!-- Dependency Information Modal -->
+    <livewire:components.dependency-information-modal wire:key="dependency-information-modal" />
 </div>

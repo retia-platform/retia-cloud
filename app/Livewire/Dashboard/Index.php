@@ -7,6 +7,7 @@ use App\Repositories\DeviceRepository;
 use App\Repositories\LogRepository;
 use App\Repositories\MonitoringRepository;
 use App\Traits\Chartable;
+use App\Traits\HasDependencyInformationModal;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -14,6 +15,7 @@ use Livewire\Component;
 class Index extends Component
 {
     use Chartable;
+    use HasDependencyInformationModal;
 
     public Collection $buildInformation;
 
