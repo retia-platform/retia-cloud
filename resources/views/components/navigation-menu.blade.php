@@ -21,12 +21,7 @@
                                     <button type="button"
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
-
-                                        <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                        </svg>
+                                        <x-icon type="chevron-up-down" class="ms-2 -me-0.5 h-4 w-4" />
                                     </button>
                                 </span>
                             </x-slot>
@@ -70,24 +65,8 @@
                 <!-- Notification -->
                 <div class="ms-3 relative flex">
                     <a wire:navigate href="{{ route('notifications') }}">
-                        @if (request()->routeIs('notifications'))
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                                class="w-5 h-5 mr-4">
-                                <path fill-rule="evenodd"
-                                    d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0 25.057 25.057 0 0 1-4.496 0Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                            </svg>
-                        @endif
+                        <x-icon type="bell" class="w-5 h-5 mr-4" :solid="request()->routeIs('notifications')" />
                     </a>
-                    <!-- <span class="text-sm mr-3">
-                        Hi, <b>{{ Auth::user()->name }}</b>
-                    </span> -->
                 </div>
 
                 <!-- Settings Dropdown -->
@@ -105,12 +84,7 @@
                                     <button type="button"
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
-
-                                        <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                        </svg>
+                                        <x-icon type="chevron-down" class="ms-2 -me-0.5 h-4 w-4" />
                                     </button>
                                 </span>
                             @endif
@@ -124,24 +98,6 @@
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
-
-                            @can('access pulse')
-                                <x-dropdown-link href="{{ route('pulse') }}">
-                                    {{ __('App Usage Monitoring') }}
-                                </x-dropdown-link>
-                            @endcan
-
-                            @can('access telescope')
-                                <x-dropdown-link href="{{ route('telescope') }}">
-                                    {{ __('System Monitoring') }}
-                                </x-dropdown-link>
-                            @endcan
-
-                            @can('access horizon')
-                                <x-dropdown-link href="{{ route('horizon.index') }}">
-                                    {{ __('System Job Monitoring') }}
-                                </x-dropdown-link>
-                            @endcan
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
