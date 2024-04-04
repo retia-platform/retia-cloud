@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\APIModel;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -95,7 +96,7 @@ class Device extends APIModel
             $device['brand'] ?? 'Unknown',
             $device['device_type'] ?? 'Unknown',
             $device['mgmt_ipaddr'] ?? 'unknown',
-            Str::lower($device['status']) === 'up',
+            Str::lower($device['status'] ?? 'down') === 'up',
             $device['port'] ?? null,
             $device['username'] ?? null,
             $device['secret'] ?? null,
@@ -117,14 +118,14 @@ class Device extends APIModel
         });
     }
 
-    public static function find(string $device): self
+    public static function find(string $device): ?self
     {
         $device = self::api()->get("device/$device", resourceName: self::getResourceName());
 
-        return self::make($device);
+        return empty($device) || $device->count() <= 0 ? null : self::make($device);
     }
 
-    public static function create(array $data): self
+    public static function create(array $data): ?self
     {
         self::api()->post('device', resourceName: self::getResourceName(), body: [
             'hostname' => $device = $data['name'],
@@ -137,6 +138,10 @@ class Device extends APIModel
             'login_banner' => $data['login_banner'] ?? null,
             'motd_banner' => $data['motd_banner'] ?? null,
         ]);
+
+        if (session()->has('errors')) {
+            return null;
+        }
 
         return self::find($device);
 
@@ -184,6 +189,10 @@ class Device extends APIModel
     public function refresh(): void
     {
         $device = self::api()->get("device/{$this->name}", resourceName: self::getResourceName());
+
+        if (empty($device)) {
+            throw new Exception('Device not found!');
+        }
 
         $this->name = $device['hostname'];
         $this->brand = $device['brand'];
@@ -255,7 +264,7 @@ class Device extends APIModel
             $value['motd_banner'],
             $value['software_version'],
             $value['created_at'],
-            $value['modified_at'],
+            $value['modified_at'] ?? null,
         );
     }
 

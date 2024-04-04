@@ -5,8 +5,8 @@
         </div>
         <div class="w-full md:w-1/3 flex justify-end pr-4">
             <span
-                class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty(route($storeRoute)) && $exportable) border @endif">
-                @if (!empty(route($storeRoute)))
+                class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty($storeRoute) && $exportable) border @endif">
+                @if (!empty($storeRoute))
                     <a wire:navigate href="{{ route($storeRoute) }}" class="flex">
                         <button
                             class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">

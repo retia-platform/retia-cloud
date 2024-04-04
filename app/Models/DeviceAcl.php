@@ -125,7 +125,7 @@ class DeviceAcl extends APIModel
         $deviceRepostiory = app(DeviceRepository::class);
 
         return new self(
-            $deviceRepostiory->findDevice($value['device_id']),
+            $deviceRepostiory->getDevice($value['device_id']),
             $value['name'],
             $value['rules'],
             $value['apply_to_interfaces'],

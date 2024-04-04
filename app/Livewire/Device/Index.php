@@ -2,9 +2,13 @@
 
 namespace App\Livewire\Device;
 
+use App\Enums\DeviceBrand;
+use App\Enums\DeviceStatus;
+use App\Enums\DeviceType;
 use App\Exports\DeviceExport;
 use App\Interfaces\TableComponent;
 use App\Repositories\DeviceRepository;
+use App\Traits\HasFilterFromEnum;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -14,22 +18,15 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component implements TableComponent
 {
-    public array $filters = [
-        'brands' => [
-            'cisco' => true,
-            'mikrotik' => false,
-            'juniper' => false,
-        ],
-        'types' => [
-            'router' => true,
-            'access_point' => false,
-            'programmable_switch' => false,
-        ],
-        'statuses' => [
-            'running' => true,
-            'down' => true,
-        ],
+    use HasFilterFromEnum;
+
+    public array $filterEnums = [
+        'brands' => DeviceBrand::class,
+        'types' => DeviceType::class,
+        'statuses' => DeviceStatus::class,
     ];
+
+    public array $filters;
 
     private Collection $devices;
 
@@ -50,7 +47,7 @@ class Index extends Component implements TableComponent
         return [
             'title' => 'Device',
             'detailRoute' => 'devices.detail',
-            'storeRoute' => 'devices.store',
+            'storeRoute' => 'devices.store1',
             'updateRoute' => 'devices.update',
             'actionable' => true,
             'deleteable' => true,
@@ -73,6 +70,14 @@ class Index extends Component implements TableComponent
                 $device->createdAt->diffForHumans(),
             ];
         });
+    }
+
+    public function activateDefaultFilters()
+    {
+        $this->filters['brands']['cisco'] = true;
+        $this->filters['types']['router'] = true;
+        $this->filters['statuses']['running'] = true;
+        $this->filters['statuses']['down'] = true;
     }
 
     public function filter(DeviceRepository $deviceRepository)
@@ -115,6 +120,8 @@ class Index extends Component implements TableComponent
 
     public function mount(DeviceRepository $deviceRepository)
     {
+        $this->populateFilters($this->filterEnums);
+        $this->activateDefaultFilters();
         $this->filter($deviceRepository);
     }
 

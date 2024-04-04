@@ -49,6 +49,10 @@ class DeviceInterface extends APIModel
             $data = $data->toArray();
         }
 
+        if (empty($data['name']) && ! empty($data['ietf-interfaces:interface']['name'])) {
+            $data['name'] = $data['ietf-interfaces:interface']['name'];
+        }
+
         return new self(
             $device,
             $data['name'],
@@ -155,7 +159,7 @@ class DeviceInterface extends APIModel
         $deviceRepostiory = app(DeviceRepository::class);
 
         return new self(
-            $deviceRepostiory->findDevice($value['device_id']),
+            $deviceRepostiory->getDevice($value['device_id']),
             $value['name'],
             $value['type'],
             $value['ip_address'],

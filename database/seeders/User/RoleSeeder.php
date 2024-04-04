@@ -23,6 +23,16 @@ class RoleSeeder extends Seeder
         $this->administrator = Role::create(['name' => 'Administrator']);
         $this->technician = Role::create(['name' => 'Technician']);
 
+        // setting permissions
+        $this->applyPermissionsToAllRole([
+            'update theme',
+            'update profile information',
+            'update password',
+            'manage two factor authentication',
+            'manage session',
+            'delete account',
+        ]);
+
         // notification permissions
         $this->applyPermissionsToAllRole([
             'read notification',

@@ -31,13 +31,13 @@ class Table extends Component
 
     public ?string $updateRoute = null;
 
-    public bool $actionable = true;
+    public bool $actionable = false;
 
-    public bool $deleteable = true;
+    public bool $deleteable = false;
 
-    public bool $exportable = true;
+    public bool $exportable = false;
 
-    public bool $paginate = true;
+    public bool $paginate = false;
 
     #[Validate('required|string|min:3|max:255')]
     public string $exportFileName = '';
@@ -81,13 +81,13 @@ class Table extends Component
         $this->pluralTitle = Str::plural($data['title']);
         $this->exportFileName = Str::lower($this->pluralTitle);
         $this->columns = $data['columns'];
-        $this->detailRoute = $data['detailRoute'];
-        $this->storeRoute = $data['storeRoute'];
-        $this->updateRoute = $data['updateRoute'];
-        $this->actionable = $data['actionable'];
-        $this->deleteable = $data['deleteable'];
-        $this->exportable = $data['exportable'];
-        $this->paginate = $data['paginate'];
+        $this->detailRoute = $data['detailRoute'] ?? null;
+        $this->storeRoute = $data['storeRoute'] ?? null;
+        $this->updateRoute = $data['updateRoute'] ?? null;
+        $this->actionable = $data['actionable'] ?? false;
+        $this->deleteable = $data['deleteable'] ?? false;
+        $this->exportable = $data['exportable'] ?? false;
+        $this->paginate = $data['paginate'] ?? false;
 
         if ($this->deleteable === false && empty($this->updateRoute) && empty($this->detailRoute)) {
             $this->actionable = false;

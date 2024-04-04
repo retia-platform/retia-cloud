@@ -2,7 +2,7 @@
 
 <div x-data="{{ json_encode(['show' => true, 'style' => $style, 'message' => $message]) }}"
     :class="{
-        'bg-indigo-500': style == 'success',
+        'bg-gray-500': style == 'success',
         'bg-red-700': style == 'danger',
         'bg-gray-500': style != 'success' &&
             style != 'danger'
@@ -17,7 +17,7 @@
         <div class="flex items-center justify-between flex-wrap">
             <div class="w-0 flex-1 flex items-center min-w-0">
                 <span class="flex p-2 rounded-lg"
-                    :class="{ 'bg-indigo-600': style == 'success', 'bg-red-600': style == 'danger' }">
+                    :class="{ 'bg-gray-600': style == 'success', 'bg-red-600': style == 'danger' }">
                     <svg x-show="style == 'success'" class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -42,7 +42,7 @@
             <div class="shrink-0 sm:ms-3">
                 <button type="button" class="-me-1 flex p-2 rounded-md focus:outline-none sm:-me-2 transition"
                     :class="{
-                        'hover:bg-indigo-600 focus:bg-indigo-600': style ==
+                        'hover:bg-gray-600 focus:bg-gray-600': style ==
                             'success',
                         'hover:bg-red-600 focus:bg-red-600': style == 'danger'
                     }"

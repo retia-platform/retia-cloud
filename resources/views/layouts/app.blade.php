@@ -15,9 +15,6 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet" />
 
-    <!-- <link rel="preconnect" href="https://fonts.bunny.net"> -->
-    <!-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> -->
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -68,10 +65,15 @@
         </main>
     </div>
 
+    <!-- Bypass Tailwind JIT -->
     <span class="hidden text-gray-600"></span>
     <span class="hidden text-green-600"></span>
     <span class="hidden text-yellow-600"></span>
     <span class="hidden text-red-600"></span>
+    <div class="hidden grid-cols-2"></div>
+    <div class="hidden grid-cols-3"></div>
+    <div class="hidden grid-cols-4"></div>
+    <div class="hidden grid-cols-5"></div>
 
     @stack('modals')
 

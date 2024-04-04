@@ -19,7 +19,7 @@
             <x-slot name="selector">
                 <select wire:key="in-throughput-device-select" wire:model="inThroughputDevice"
                     wire:change="updateInThroughputs" name="InThroughputDeviceSelect" id="in-throughput-device-select"
-                    class="w-full rounded-lg bg-gray-50 border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
+                    class="w-full rounded-lg border-gray-300 text-gray-700 text-xs focus:ring-gray-600 focus:border-gray-600">
                     @foreach ($devices as $device)
                         <option value="{{ $device['name'] }}">{{ $device['name'] }}</option>
                     @endforeach

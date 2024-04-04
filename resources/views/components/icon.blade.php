@@ -6,6 +6,10 @@
 
 <span>
     @switch($type)
+        @case('adjustments-horizontal')
+            <x-icon.adjustments-horizontal class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
         @case('arrow-long-right')
             <x-icon.arrow-long-right class="{{ $class }}" solid="{{ $solid }}" />
         @break
@@ -44,6 +48,14 @@
 
         @case('chevron-up-down')
             <x-icon.chevron-up-down class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('clock')
+            <x-icon.clock class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('cog')
+            <x-icon.cog class="{{ $class }}" solid="{{ $solid }}" />
         @break
 
         @case('computer-desktop')
@@ -96,6 +108,58 @@
 
         @case('user-group')
             <x-icon.user-group class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('wifi')
+            <x-icon.wifi class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('at-symbol')
+            <x-icon.at-symbol class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('finger-print')
+            <x-icon.finger-print class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('viewfinder-circle')
+            <x-icon.viewfinder-circle class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('code-bracket-square')
+            <x-icon.code-bracket-square class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('hashtag')
+            <x-icon.hashtag class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('queue-list')
+            <x-icon.queue-list class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('arrow-path')
+            <x-icon.arrow-path class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('arrows-pointing-out')
+            <x-icon.arrows-pointing-out class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('arrow-uturn-left')
+            <x-icon.arrow-uturn-left class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('power')
+            <x-icon.power class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('ellipsis-horizontal-circle')
+            <x-icon.ellipsis-horizontal-circle class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('check-badge')
+            <x-icon.check-badge class="{{ $class }}" solid="{{ $solid }}" />
         @break
     @endswitch
 </span>

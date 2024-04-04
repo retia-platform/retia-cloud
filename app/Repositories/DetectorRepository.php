@@ -2,47 +2,48 @@
 
 namespace App\Repositories;
 
-use App\Traits\Authorizable;
-use App\Traits\Formatable;
+use App\Models\Detector;
+use App\Traits\Requestable;
 use Illuminate\Support\Collection;
 
 class DetectorRepository
 {
-    use Authorizable;
-    use Formatable;
+    use Requestable;
+
+    private ?Detector $cachedDetector = null;
 
     private ?Collection $cachedDetectors = null;
 
-    public function getAllDetectors(
-        int $amount = 0, // 0 means all
-    ): Collection {
+    /**
+     * Detectors
+     * --------------------
+     */
+    public function getDetectors(int $amount = 0): Collection
+    {
         if (! empty($this->cachedDetectors)) {
             return $this->cachedDetectors;
         }
 
-        $response = $this->withToken()->get(config('services.retia_api.url').'detector');
+        return $this->cachedDetectors = Detector::all(amount: $amount);
+    }
 
-        $this->authorize($response);
+    public function getDetector(string $name): ?Detector
+    {
+        if ($name === $this->cachedDetector?->name) {
+            return $this->cachedDetector;
+        }
 
-        return $this->cachedDetectors = $this->collect($response, $amount)->map(function ($detector) {
-            $detector['hostname'] = $detector['hostname'] ?? 'Unknown';
-            $detector['brand'] = $detector['brand'] ?? 'Unknown';
-            $detector['device_type'] = $detector['device_type'] ?? 'Unknown';
-            $detector['mgmt_ipaddr'] = $detector['mgmt_ipaddr'] ?? 'unknown';
-            $detector['status'] = $detector['status'] ?? 'down';
-
-            return $detector;
-        });
+        return $this->cachedDetector = Detector::find($name);
     }
 
     public function getDetectorAmount(): int
     {
-        return $this->getAllDetectors()->count();
+        return $this->getDetectors()->count();
     }
 
     public function getRunningDetectorAmount(): int
     {
-        return $this->getAllDetectors()->filter(fn ($detector) => ($detector['status'] ?? '') === 'up')->count();
+        return $this->getDetectors()->filter(fn ($detector) => $detector->isRunning())->count();
     }
 
     public function getRunningDetectorPercentage(): int
@@ -52,5 +53,24 @@ class DetectorRepository
         }
 
         return $this->getRunningDetectorAmount() / $this->getDetectorAmount() * 100;
+    }
+
+    public function createDetector(array $data): ?Detector
+    {
+        return Detector::create($data);
+    }
+
+    public function updateDetector(string $detector, array $data): Detector
+    {
+        $detector = $this->getDetector($detector);
+
+        $detector->update($data);
+
+        return $detector->fresh();
+    }
+
+    public function deleteDetector(string $detector): void
+    {
+        $this->getDetector($detector)->delete();
     }
 }

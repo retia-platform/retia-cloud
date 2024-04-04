@@ -88,15 +88,20 @@ class User extends Authenticatable
 
     public function refreshRetiaApiToken(): self
     {
+        return $this->createRetiaApiToken();
+    }
+
+    public function createRetiaApiToken(): self
+    {
         $retiaApiToken = Http::post(config('services.retia_api.url').'api/token', [
             'username' => config('services.retia_api.username'),
             'password' => config('services.retia_api.password'),
         ])->json();
 
-        if (empty($retiaApiToken['access'])) {
-            Log::error('Failed to refresh Retia API token!');
+        if (empty($retiaApiToken) || empty($retiaApiToken['access'])) {
+            Log::error($message = 'Failed to refresh Retia API token!');
 
-            return $this;
+            return redirect(route('login'))->withErrors(['retia_api' => $message]);
         }
 
         $this->update([

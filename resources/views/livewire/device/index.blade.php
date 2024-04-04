@@ -4,7 +4,7 @@
             <x-table-filter-section icon="tag" title="Brands" :divider="true">
                 <x-slot name="filters">
                     <livewire:components.table-filter-checkbox label="Cisco" wire:model="filters.brands.cisco" />
-                    <livewire:components.table-filter-checkbox label="Mikrotik" wire:model="filters.brands.mikrotik" />
+                    <livewire:components.table-filter-checkbox label="MikroTik" wire:model="filters.brands.mikrotik" />
                     <livewire:components.table-filter-checkbox label="Juniper" wire:model="filters.brands.juniper" />
                 </x-slot>
             </x-table-filter-section>

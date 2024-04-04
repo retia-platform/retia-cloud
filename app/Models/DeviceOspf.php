@@ -149,7 +149,7 @@ class DeviceOspf extends APIModel
         $deviceRepostiory = app(DeviceRepository::class);
 
         return new self(
-            $deviceRepostiory->findDevice($value['device_id']),
+            $deviceRepostiory->getDevice($value['device_id']),
             $value['networks'],
             $value['passive_interfaces'],
             $value['redistributes'],

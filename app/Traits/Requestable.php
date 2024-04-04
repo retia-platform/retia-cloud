@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Exception;
 use Illuminate\Http\Client\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 
 trait Requestable
@@ -20,6 +21,7 @@ trait Requestable
         Response $response,
         int $amount = 0, // 0 means all,
         string $resourceName = 'Resource',
+        bool $breakWhenNotFound = true,
     ): Collection {
         $this->authorize($response);
 
@@ -27,7 +29,7 @@ trait Requestable
             throw new Exception('Unauthorized');
         }
 
-        if ($response->notFound()) {
+        if ($breakWhenNotFound && $response->notFound()) {
             throw new Exception($resourceName.' not found');
         }
 
@@ -46,7 +48,7 @@ trait Requestable
     ): Collection {
         $response = $this->withToken()->get(config('services.retia_api.url').$path, $queryParams);
 
-        return $this->authorizeThenCollect($response, $amount, $resourceName);
+        return $this->authorizeThenCollect($response, $amount, $resourceName, false);
     }
 
     public function post(
@@ -54,10 +56,16 @@ trait Requestable
         array $body = [],
         int $amount = 0, // 0 means all,
         string $resourceName = 'Resource',
-    ): Collection {
-        $response = $this->withToken()->post(config('services.retia_api.url').$path, $body);
+    ): Collection|RedirectResponse {
+        $response = $this->withToken()->asJson()->post(config('services.retia_api.url').$path, $body);
 
-        return $this->authorizeThenCollect($response, $amount, $resourceName);
+        $body = json_decode($response->body());
+
+        if (json_last_error() === JSON_ERROR_NONE && ! empty($body->error)) {
+            session()->flash('errors', array_map(fn ($error) => $error[0], (array) $body->error));
+        }
+
+        return $this->authorizeThenCollect($response, $amount, $resourceName, false);
     }
 
     public function put(
@@ -66,9 +74,15 @@ trait Requestable
         int $amount = 0, // 0 means all,
         string $resourceName = 'Resource',
     ): Collection {
-        $response = $this->withToken()->put(config('services.retia_api.url').$path, $body);
+        $response = $this->withToken()->asJson()->put(config('services.retia_api.url').$path, $body);
 
-        return $this->authorizeThenCollect($response, $amount, $resourceName);
+        $body = json_decode($response->body());
+
+        if (json_last_error() === JSON_ERROR_NONE && ! empty($body->error)) {
+            session()->flash('errors', array_map(fn ($error) => $error[0], (array) $body->error));
+        }
+
+        return $this->authorizeThenCollect($response, $amount, $resourceName, false);
     }
 
     public function delete(
@@ -77,6 +91,6 @@ trait Requestable
     ): Collection {
         $response = $this->withToken()->delete(config('services.retia_api.url').$path);
 
-        return $this->authorizeThenCollect($response, resourceName: $resourceName);
+        return $this->authorizeThenCollect($response, resourceName: $resourceName, breakWhenNotFound: false);
     }
 }

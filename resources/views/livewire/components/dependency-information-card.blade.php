@@ -3,7 +3,7 @@
         <div class="w-full md:w-2/3 text-md font-bold"> {{ $title }} </div>
         <div class="w-full md:w-1/3 flex justify-end">
             <button type="button" wire:click="showModal">
-                <x-icon type="informaton-circle" class="w-5 h-5" />
+                <x-icon type="information-circle" class="w-5 h-5" />
             </button>
         </div>
     </div>

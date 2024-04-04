@@ -38,7 +38,7 @@ class DeviceRepository
         return $this->cachedDevices = Device::all(amount: $amount);
     }
 
-    public function getDevice(string $name): Device
+    public function getDevice(string $name): ?Device
     {
         if ($name === $this->cachedDevice?->name) {
             return $this->cachedDevice;
@@ -66,7 +66,7 @@ class DeviceRepository
         return $this->getRunningDeviceAmount() / $this->getDeviceAmount() * 100;
     }
 
-    public function createDevice(array $data): Device
+    public function createDevice(array $data): ?Device
     {
         return Device::create($data);
     }
