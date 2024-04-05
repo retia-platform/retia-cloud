@@ -6,13 +6,10 @@ use App\Models\Device;
 use App\Models\DeviceAcl;
 use App\Models\DeviceInterface;
 use App\Models\DeviceOspf;
-use App\Traits\Requestable;
 use Illuminate\Support\Collection;
 
 class DeviceRepository
 {
-    use Requestable;
-
     private ?Device $cachedDevice = null;
 
     private ?Collection $cachedDevices = null;

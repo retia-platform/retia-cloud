@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Traits\Authorizable;
-use App\Traits\Formatable;
+use App\Models\Log;
 use Illuminate\Support\Collection;
 
 class LogRepository
 {
-    use Authorizable;
-    use Formatable;
-
     private ?Collection $cachedMonthlyLogs = null;
 
     private ?Collection $cachedWeeklyLogs = null;
 
+    /**
+     * Monthly Logs
+     * --------------------
+     */
     public function getMonthlyLogs(
         int $amount = 0, // 0 means all
     ): Collection {
@@ -22,16 +22,7 @@ class LogRepository
             return $this->cachedMonthlyLogs;
         }
 
-        $startOfMonth = now()->startOfMonth()->format('Y-m-d').'T00:00:00';
-        $endOfMonth = now()->endOfMonth()->format('Y-m-d').'T23:59:59';
-        $monthlyFilter = "?start_time=$startOfMonth%2B07:00&end_time=$endOfMonth%2B07:00";
-
-        $response = $this->withToken()
-            ->get(config('services.retia_api.url').'log/activity'.$monthlyFilter);
-
-        $this->authorize($response);
-
-        return $this->cachedMonthlyLogs = $this->collect($response, $amount);
+        return $this->cachedMonthlyLogs = Log::all(now()->startOfMonth(), now()->endOfMonth(), $amount);
     }
 
     public function getMonthlyLogAmount(): int
@@ -41,9 +32,13 @@ class LogRepository
 
     public function getMonthlyErrorLogAmount(): int
     {
-        return $this->getMonthlyLogs()->filter(fn ($log) => ($log['severity'] ?? '') === 'error')->count();
+        return $this->getMonthlyLogs()->filter(fn (Log $log) => $log->isErrorSeverity())->count();
     }
 
+    /**
+     * Weekly Logs
+     * --------------------
+     */
     public function getWeeklyLogs(
         int $amount = 0, // 0 means all
     ): Collection {
@@ -51,16 +46,7 @@ class LogRepository
             return $this->cachedWeeklyLogs;
         }
 
-        $startOfWeek = now()->startOfWeek()->format('Y-m-d').'T00:00:00';
-        $endOfWeek = now()->endOfWeek()->format('Y-m-d').'T23:59:59';
-        $weeklyFilter = "?start_time=$startOfWeek%2B07:00&end_time=$endOfWeek%2B07:00";
-
-        $response = $this->withToken()
-            ->get(config('services.retia_api.url').'log/activity'.$weeklyFilter);
-
-        $this->authorize($response);
-
-        return $this->cachedWeeklyLogs = $this->collect($response, $amount);
+        return $this->cachedWeeklyLogs = Log::all(now()->startOfWeek(), now()->endOfWeek(), $amount);
     }
 
     public function getWeeklyLogAmount(): int
@@ -70,6 +56,6 @@ class LogRepository
 
     public function getWeeklyErrorLogAmount(): int
     {
-        return $this->getWeeklyLogs()->filter(fn ($log) => ($log['severity'] ?? '') === 'error')->count();
+        return $this->getWeeklyLogs()->filter(fn (Log $log) => $log->isErrorSeverity())->count();
     }
 }

@@ -3,13 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Detector;
-use App\Traits\Requestable;
 use Illuminate\Support\Collection;
 
 class DetectorRepository
 {
-    use Requestable;
-
     private ?Detector $cachedDetector = null;
 
     private ?Collection $cachedDetectors = null;

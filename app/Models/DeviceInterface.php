@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use App\Repositories\DeviceRepository;
 use Exception;
 use Illuminate\Support\Collection;
 
-class DeviceInterface extends APIModel
+class DeviceInterface extends APIModel implements Synthable
 {
     // main properties
     public Device $device;
@@ -80,11 +81,6 @@ class DeviceInterface extends APIModel
         return self::make($device, $interface);
     }
 
-    public static function create(): self
-    {
-        throw new Exception(self::getResourceName().' create action is not supported');
-    }
-
     public function update(array $data): void
     {
         self::api()->put("device/{$this->device->name}/interface/{$this->name}", resourceName: self::getResourceName(), body: [
@@ -116,14 +112,14 @@ class DeviceInterface extends APIModel
 
     public function refresh(): void
     {
-        $interface = self::api()->get("device/{$this->device->name}/interface/{$this->name}", resourceName: self::getResourceName());
+        $interface = self::find($this->device, $this->name);
 
-        $this->name = $interface['name'];
-        $this->type = $interface['type'] ?? null;
-        $this->ipAddress = $interface['ip'] ?? null;
-        $this->netmask = $interface['netmask'] ?? null;
-        $this->enabled = empty($interface['enabled']) ? false : (bool) $interface['enabled'];
-        $this->running = empty($interface['status']) ? false : ($interface['status'] === 'up' ? true : false);
+        $this->name = $interface->name;
+        $this->type = $interface->type;
+        $this->ipAddress = $interface->ipAddress;
+        $this->netmask = $interface->netmask;
+        $this->enabled = $interface->isEnabled();
+        $this->running = $interface->isRunning();
     }
 
     public function isEnabled(): bool

@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 trait Authorizable
 {
-    public function withToken(): PendingRequest
+    public static function withToken(): PendingRequest
     {
         return Http::withToken(auth()->user()?->retia_api_token);
     }
 
-    public function authorize(Response $response)
+    public static function authorize(Response $response)
     {
         if ($response->unauthorized()) {
             auth()->user()?->refreshRetiaApiToken();

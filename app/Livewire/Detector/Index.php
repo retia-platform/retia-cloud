@@ -5,10 +5,10 @@ namespace App\Livewire\Detector;
 use App\Enums\DeviceBrand;
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
-use App\Exports\DeviceExport;
+use App\Exports\DetectorExport;
 use App\Interfaces\TableComponent;
+use App\Models\Detector;
 use App\Repositories\DetectorRepository;
-use App\Repositories\DeviceRepository;
 use App\Traits\HasFilterFromEnum;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -29,12 +29,12 @@ class Index extends Component implements TableComponent
 
     public array $filters;
 
-    private Collection $devices;
+    private Collection $detectors;
 
     public static function getTableColumns(): array
     {
         return [
-            'Device',
+            'Detector',
             'Brand',
             'Type',
             'IP Address',
@@ -61,14 +61,14 @@ class Index extends Component implements TableComponent
 
     public function getTableItems(): Collection
     {
-        return $this->devices->map(function ($device) {
+        return $this->detectors->map(function (Detector $detector) {
             return [
-                $device->name,
-                $device->brand,
-                $device->type,
-                '<code>'.$device->ipAddress.'</code>',
-                $device->isRunning() ? '<span class="font-bold text-green-600">🟢 Running</span>' : '<span class="font-bold text-red-600">🔴 Down</span>',
-                $device->createdAt->diffForHumans(),
+                $detector->name,
+                $detector->brand,
+                $detector->type,
+                '<code>'.$detector->ipAddress.'</code>',
+                $detector->isRunning() ? '<span class="font-bold text-green-600">🟢 Running</span>' : '<span class="font-bold text-red-600">🔴 Down</span>',
+                $detector->createdAt->diffForHumans(),
             ];
         });
     }
@@ -83,9 +83,9 @@ class Index extends Component implements TableComponent
 
     public function filter(DetectorRepository $detectorRepository)
     {
-        $this->devices = $deviceRepository->getDevices()->filter(function ($device) {
-            $brand = Str::lower($device->brand);
-            $type = Str::lower($device->type);
+        $this->detectors = $detectorRepository->getDetectors()->filter(function (Detector $detector) {
+            $brand = Str::lower($detector->brand);
+            $type = Str::lower($detector->type);
 
             return (
                 ($this->filters['brands']['cisco'] ? $brand === 'cisco' : false) ||
@@ -96,8 +96,8 @@ class Index extends Component implements TableComponent
                 ($this->filters['types']['access_point'] ? $type === 'access_point' : false) ||
                 ($this->filters['types']['programmable_switch'] ? $type === 'programmable_switch' : false)
             ) && (
-                ($this->filters['statuses']['running'] ? $device->isRunning() : false) ||
-                ($this->filters['statuses']['down'] ? ! $device->isRunning() : false)
+                ($this->filters['statuses']['running'] ? $detector->isRunning() : false) ||
+                ($this->filters['statuses']['down'] ? ! $detector->isRunning() : false)
             );
         });
 
@@ -105,30 +105,30 @@ class Index extends Component implements TableComponent
     }
 
     #[On('table-exported')]
-    public function export(DeviceRepository $deviceRepository, string $fileName): Response|BinaryFileResponse
+    public function export(DetectorRepository $detectorRepository, string $fileName): Response|BinaryFileResponse
     {
-        $this->filter($deviceRepository);
+        $this->filter($detectorRepository);
 
-        return (new DeviceExport($this->devices))->download($fileName);
+        return (new DetectorExport($this->detectors))->download($fileName);
     }
 
     #[On('table-item-deleted')]
-    public function delete(DeviceRepository $deviceRepository, string $device)
+    public function delete(DetectorRepository $detectorRepository, string $detector)
     {
-        $deviceRepository->deleteDevice($device);
-        $this->devices = $deviceRepository->getDevices();
+        $detectorRepository->deleteDetector($detector);
+        $this->detectors = $detectorRepository->getDetectors();
     }
 
-    public function mount(DeviceRepository $deviceRepository)
+    public function mount(DetectorRepository $detectorRepository)
     {
         $this->populateFilters($this->filterEnums);
         $this->activateDefaultFilters();
-        $this->filter($deviceRepository);
+        $this->filter($detectorRepository);
     }
 
     public function render()
     {
-        return view('livewire.device.index', [
+        return view('livewire.detector.index', [
             'tableData' => $this->getTableData(),
         ]);
     }

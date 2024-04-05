@@ -5,18 +5,18 @@
         </div>
         <div class="w-full md:w-1/3 flex justify-end pr-4">
             <span
-                class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty($storeRoute) && $exportable) border @endif">
+                class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty($storeRoute) || $exportable) border @endif">
                 @if (!empty($storeRoute))
                     <a wire:navigate href="{{ route($storeRoute) }}" class="flex">
                         <button
-                            class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
+                            class="inline-block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:relative">
                             Add {{ $title }}
                         </button>
                     </a>
                 @endif
                 @if ($exportable)
                     <button wire:click="showExportModal"
-                        class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">
+                        class="inline-block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:relative">
                         Export {{ $pluralTitle }}
                     </button>
                 @endif
@@ -27,7 +27,7 @@
                 <label for="Search" class="sr-only"> Search </label>
                 <input type="text" id="Search" wire:model.live="searchTerm"
                     placeholder="Search {{ $title }}..."
-                    class="w-full rounded-md py-2.5 ps-4 pe-10 text-sm border border-1 border-gray-200 focus:outline-none focus:ring-gray-600 focus:border-gray-600" />
+                    class="w-full rounded-md py-2.5 ps-4 pe-10 text-xs border border-1 border-gray-200 focus:outline-none focus:ring-gray-600 focus:border-gray-600" />
                 <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
                     <button type="button" class="text-gray-600 hover:text-gray-700">
                         <span class="sr-only"> Search </span>
@@ -44,7 +44,9 @@
                     <tr>
                         @foreach ($columns as $column)
                             <th wire:key="{{ $loop->index }}"
-                                class="whitespace-nowrap px-4 py-2 font-bold text-gray-900">{{ $column }}</th>
+                                class="whitespace-nowrap px-4 py-2 font-bold text-gray-900">
+                                {!! $column !!}
+                            </th>
                         @endforeach
                         @if ($actionable)
                             <th class="whitespace-nowrap px-4 py-2 font-bold text-gray-900"></th>
@@ -65,10 +67,12 @@
                                     <div x-data="{ isActive: false }">
                                         <div
                                             class="inline-flex items-center overflow-hidden rounded-md border bg-white">
-                                            <a wire:navigate href="{{ route($detailRoute) }}"
-                                                class="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
-                                                Detail
-                                            </a>
+                                            @if (!empty($detailRoute))
+                                                <a wire:navigate href="{{ route($detailRoute) }}"
+                                                    class="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+                                                    Detail
+                                                </a>
+                                            @endif
                                             <button x-on:click="isActive = !isActive"
                                                 class="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
                                                 <span class="sr-only">Menu</span>
@@ -80,22 +84,28 @@
                                             x-on:click.away="isActive = false"
                                             x-on:keydown.escape.window="isActive = false">
                                             <div class="p-2">
-                                                <a wire:navigate href="{{ route($detailRoute) }}"
-                                                    class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                                    role="menuitem"> See Detail </a>
-                                                <a wire:navigate href="{{ route($updateRoute) }}"
-                                                    class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                                    role="menuitem"> Edit {{ $title }} </a>
+                                                @if (!empty($detailRoute))
+                                                    <a wire:navigate href="{{ route($detailRoute) }}"
+                                                        class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                                        role="menuitem"> See Detail </a>
+                                                @endif
+                                                @if (!empty($updateRoute))
+                                                    <a wire:navigate href="{{ route($updateRoute) }}"
+                                                        class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                                        role="menuitem"> Edit {{ $title }} </a>
+                                                @endif
                                             </div>
-                                            <div class="p-2">
-                                                <button type="button"
-                                                    wire:click="showDeleteModal({{ json_encode($item) }})"
-                                                    class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
-                                                    role="menuitem">
-                                                    <x-icon type="trash" class="h-4 w-4" />
-                                                    Remove {{ $title }}
-                                                </button>
-                                            </div>
+                                            @if ($deleteable)
+                                                <div class="p-2">
+                                                    <button type="button"
+                                                        wire:click="showDeleteModal({{ json_encode($item) }})"
+                                                        class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                                                        role="menuitem">
+                                                        <x-icon type="trash" class="h-4 w-4" />
+                                                        Remove {{ $title }}
+                                                    </button>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
@@ -136,8 +146,8 @@
             </div>
         @endif
     </div>
-    <!-- Export Modal -->
 
+    <!-- Export Modal -->
     <form wire:submit="export">
         <x-dialog-modal wire:key="export-modal" wire:model.live="showingExportModal">
             <x-slot name="title">

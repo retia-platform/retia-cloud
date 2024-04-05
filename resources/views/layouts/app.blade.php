@@ -66,14 +66,22 @@
     </div>
 
     <!-- Bypass Tailwind JIT -->
-    <span class="hidden text-gray-600"></span>
-    <span class="hidden text-green-600"></span>
-    <span class="hidden text-yellow-600"></span>
-    <span class="hidden text-red-600"></span>
+    <div class="hidden bg-gray-100 text-gray-600"></div>
+    <div class="hidden bg-green-100 text-green-600"></div>
+    <div class="hidden bg-yellow-100 text-yellow-600"></div>
+    <div class="hidden bg-red-100 text-red-600"></div>
+    <div class="hidden bg-purple-100 text-purple-600"></div>
+    <div class="hidden bg-fuchsia-100 text-fuchsia-600"></div>
+    <div class="hidden bg-indigo-100 text-indigo-600"></div>
+    <div class="hidden bg-cyan-100 text-cyan-600"></div>
+    <div class="hidden bg-emerald-100 text-emerald-600"></div>
+    <div class="hidden bg-lime-100 text-lime-600"></div>
+    <div class="hidden bg-blue-100 text-blue-600"></div>
     <div class="hidden grid-cols-2"></div>
     <div class="hidden grid-cols-3"></div>
     <div class="hidden grid-cols-4"></div>
     <div class="hidden grid-cols-5"></div>
+    <div class="hidden whitespace-nowrap rounded-full px-2.5 py-0.5"></div>
 
     @stack('modals')
 

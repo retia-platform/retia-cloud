@@ -5,7 +5,7 @@ namespace App\Enums;
 enum DeviceType: string
 {
     case ROUTER = 'router';
-    case ACCESS_POINT = 'switch';
+    case ACCESS_POINT = 'access_point';
     case PROGRAMMABLE_SWITCH = 'programmable_switch';
 
     public static function toArray(): array

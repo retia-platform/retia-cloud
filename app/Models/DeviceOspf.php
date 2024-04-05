@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use App\Repositories\DeviceRepository;
 use Illuminate\Support\Collection;
 
-class DeviceOspf extends APIModel
+class DeviceOspf extends APIModel implements Synthable
 {
     // main properties
     public Device $device;
@@ -114,13 +115,13 @@ class DeviceOspf extends APIModel
 
     public function refresh(): void
     {
-        $ospf = self::api()->get("device/{$this->device->name}/routing/ospf-process/{$this->id}", resourceName: self::getResourceName());
+        $ospf = self::find($this->device, $this->id);
 
-        $this->id = $ospf['id'];
-        $this->networks = collect($ospf['networks'] ?? []);
-        $this->passiveInterfaces = collect($ospf['passive-interface'] ?? []);
-        $this->redistributes = collect($ospf['redistribute'] ?? []);
-        $this->defaultInformationOriginate = empty($ospf['default_information_originate']) ? false : (bool) $ospf['default_information_originate'];
+        $this->id = $ospf->id;
+        $this->networks = $ospf->networks;
+        $this->passiveInterfaces = $ospf->passiveInterfaces;
+        $this->redistributes = $ospf->redistributes;
+        $this->defaultInformationOriginate = $ospf->defaultInformationOriginate;
     }
 
     public function isDefaultInformationOriginate(): bool

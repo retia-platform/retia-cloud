@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class Device extends APIModel
+class Device extends APIModel implements Synthable
 {
     // main properties
     public string $name;

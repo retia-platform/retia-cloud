@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use App\Traits\CanIdentifyByName;
 use App\Traits\HasRunningState;
@@ -10,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class Detector extends APIModel
+class Detector extends APIModel implements Synthable
 {
     use CanIdentifyByName;
     use HasRunningState;

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use App\Repositories\DeviceRepository;
-use Exception;
 use Illuminate\Support\Collection;
 
-class DeviceStaticRoute extends APIModel
+class DeviceStaticRoute extends APIModel implements Synthable
 {
     // main properties
     public Device $device;
@@ -51,36 +51,6 @@ class DeviceStaticRoute extends APIModel
         return $staticRoutes->map(function ($staticRoute) use ($device) {
             return self::make($device, $staticRoute);
         });
-    }
-
-    public static function find(): self
-    {
-        throw new Exception(self::getResourceName().' find action is not supported');
-    }
-
-    public static function create(): self
-    {
-        throw new Exception(self::getResourceName().' create action is not supported');
-    }
-
-    public function update(): void
-    {
-        throw new Exception(self::getResourceName().' update action is not supported');
-    }
-
-    public function save(): self
-    {
-        throw new Exception(self::getResourceName().' save action is not supported');
-    }
-
-    public function delete(): void
-    {
-        throw new Exception(self::getResourceName().' delete action is not supported');
-    }
-
-    public function refresh(): void
-    {
-        throw new Exception(self::getResourceName().' refresh action is not supported');
     }
 
     public function getId(): string|int

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Synthable
 {
     use HasApiTokens;
     use HasFactory;
@@ -109,5 +110,33 @@ class User extends Authenticatable
         ]);
 
         return $this->fresh();
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => $this->password,
+            'two_factor_recovery_codes' => $this->two_factor_recovery_codes,
+            'two_factor_secret' => $this->two_factor_secret,
+            'retia_api_token' => $this->retia_api_token,
+            'remember_token' => $this->remember_token,
+        ];
+    }
+
+    public static function synth(array $value): self
+    {
+        return new self([
+            'id' => $value['id'],
+            'name' => $value['name'],
+            'email' => $value['email'],
+            'password' => $value['password'],
+            'two_factor_recovery_codes' => $value['two_factor_recovery_codes'],
+            'two_factor_secret' => $value['two_factor_secret'],
+            'retia_api_token' => $value['retia_api_token'],
+            'remember_token' => $value['remember_token'],
+        ]);
     }
 }

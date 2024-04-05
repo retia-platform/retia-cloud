@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
 use App\Repositories\DeviceRepository;
 use Illuminate\Support\Collection;
 
-class DeviceAcl extends APIModel
+class DeviceAcl extends APIModel implements Synthable
 {
     // main properties
     private Device $device;
@@ -99,11 +100,11 @@ class DeviceAcl extends APIModel
 
     public function refresh(): void
     {
-        $acl = self::api()->get("device/{$this->device->name}/acl/{$this->name}", resourceName: self::getResourceName());
+        $acl = self::find($this->device, $this->name);
 
-        $this->name = $acl['name'];
-        $this->rules = collect($acl['rules'] ?? []);
-        $this->applyToInterfaces = collect($acl['apply_to_interface'] ?? []);
+        $this->name = $acl->name;
+        $this->rules = $acl->rules;
+        $this->applyToInterfaces = $acl->applyToInterfaces;
     }
 
     public function getId(): string|int
