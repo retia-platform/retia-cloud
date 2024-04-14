@@ -161,5 +161,9 @@
         @case('check-badge')
             <x-icon.check-badge class="{{ $class }}" solid="{{ $solid }}" />
         @break
+
+        @case('cube')
+            <x-icon.cube class="{{ $class }}" solid="{{ $solid }}" />
+        @break
     @endswitch
 </span>

@@ -84,7 +84,16 @@ class Index extends Component implements TableComponent
 
     public function activateDefaultFilters()
     {
-        $this->filters['times'] = 'today';
+        $this->filters['time'] = 'today';
+        foreach ($this->filters['category'] as $key => $value) {
+            $this->filters['category'][$key] = ! $value;
+        }
+        foreach ($this->filters['instance'] as $key => $value) {
+            $this->filters['instance'][$key] = ! $value;
+        }
+        foreach ($this->filters['severity'] as $key => $value) {
+            $this->filters['severity'][$key] = ! $value;
+        }
     }
 
     public function filter(LogRepository $logRepository)
@@ -92,10 +101,25 @@ class Index extends Component implements TableComponent
         $this->logs = $logRepository->getMonthlyLogs()->filter(function (Log $log) {
             $time = $log->time;
 
-            return
-                ($this->filters['times'] === 'today' ? now()->isSameDay($time) : false) ||
-                ($this->filters['times'] === 'weekly' ? now()->isSameWeek($time) : false) ||
-                ($this->filters['times'] === 'monthly' ? now()->isSameMonth($time) : false);
+            return (
+                ($this->filters['time'] === 'today' ? now()->isSameDay($time) : false) ||
+                ($this->filters['time'] === 'weekly' ? now()->isSameWeek($time) : false) ||
+                ($this->filters['time'] === 'monthly' ? now()->isSameMonth($time) : false)
+            ) && (
+                ($this->filters['category']['device'] ? $log->isDetectorCategory() : false) ||
+                ($this->filters['category']['detector'] ? $log->isDeviceCategory() : false) ||
+                ($this->filters['category']['interface'] ? $log->isInterfaceCategory() : false) ||
+                ($this->filters['category']['acl'] ? $log->isAclCategory() : false) ||
+                ($this->filters['category']['static_route'] ? $log->isStaticRouteCategory() : false) ||
+                ($this->filters['category']['ospf'] ? $log->isOspfCategory() : false)
+            ) && (
+                ($this->filters['instance']['engine'] ? $log->isEngineInstance() : false) ||
+                ($this->filters['instance']['device'] ? $log->isDeviceInstance() : false)
+            ) && (
+                ($this->filters['severity']['info'] ? $log->isInfoSeverity() : false) ||
+                ($this->filters['severity']['warning'] ? $log->isWarningSeverity() : false) ||
+                ($this->filters['severity']['error'] ? $log->isErrorSeverity() : false)
+            );
         });
 
         $this->dispatch('table-item-updated', items: $this->getTableItems());

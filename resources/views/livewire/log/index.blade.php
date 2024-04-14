@@ -3,10 +3,10 @@
         <x-slot name="filters">
             <x-table-filter-section icon="clock" title="Time Range" :divider="true">
                 <x-slot name="filters">
-                    <livewire:components.table-filter-radio label="Today" name="today" wire:model="filters.times" />
-                    <livewire:components.table-filter-radio label="Past Week" name="weekly" wire:model="filters.times" />
+                    <livewire:components.table-filter-radio label="Today" name="today" wire:model="filters.time" />
+                    <livewire:components.table-filter-radio label="Past Week" name="weekly" wire:model="filters.time" />
                     <livewire:components.table-filter-radio label="Past Month" name="monthly"
-                        wire:model="filters.times" />
+                        wire:model="filters.time" />
                 </x-slot>
             </x-table-filter-section>
             <x-table-filter-section icon="exclamation-triangle" title="Severity" :divider="true">
@@ -31,7 +31,7 @@
                     <livewire:components.table-filter-checkbox label="Unknown" wire:model="filters.category.unknown" />
                 </x-slot>
             </x-table-filter-section>
-            <x-table-filter-section icon="rectangle-stack" title="Instance" :divider="false">
+            <x-table-filter-section icon="cube" title="Instance" :divider="false">
                 <x-slot name="filters">
                     <livewire:components.table-filter-checkbox label="Engine" wire:model="filters.instance.engine" />
                     <livewire:components.table-filter-checkbox label="Device" wire:model="filters.instance.device" />

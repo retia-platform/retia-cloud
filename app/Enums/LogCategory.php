@@ -8,7 +8,7 @@ enum LogCategory: string
     case DETECTOR = 'detector';
     case INTERFACE = 'interface';
     case ACL = 'acl';
-    case STATIC_ROUTE = 'static route';
+    case STATIC_ROUTE = 'static_route';
     case OSPF = 'ospf';
     case UNKNOWN = 'unknown';
 
