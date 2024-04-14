@@ -29,9 +29,7 @@ jobs:
     - name: Remove Existing Application Caches
       run: php artisan optimize:clear
     - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
+      run: mkdir -p database && touch database/database.sqlite
     - name: Execute Tests (Unit and Feature tests) via PHPUnit
       run: php artisan test --parallel
       env:
