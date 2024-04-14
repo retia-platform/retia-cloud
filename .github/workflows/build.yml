@@ -33,7 +33,11 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Execute Tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
       run: php artisan test --parallel
+      env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          RETIA_API_URL: ${{ secrets.RETIA_API_URL }}
+          RETIA_API_PORT: ${{ secrets.RETIA_API_PORT }}
+          RETIA_API_USERNAME: ${{ secrets.RETIA_API_USERNAME }}
+          RETIA_API_PASSWORD: ${{ secrets.RETIA_API_PASSWORD }}
