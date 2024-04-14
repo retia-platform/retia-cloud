@@ -58,7 +58,9 @@ class Detector extends APIModel implements Synthable
     {
         $detectors = self::api()->get('detector', amount: $amount, resourceName: self::getResourceName());
 
-        return $detectors->map(function ($detector) {
+        return $detectors->filter(function ($detector) {
+            return ! empty($detector);
+        })->map(function ($detector) {
             return self::make($detector);
         });
     }
