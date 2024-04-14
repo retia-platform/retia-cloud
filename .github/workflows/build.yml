@@ -37,7 +37,7 @@ jobs:
       env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-          RETIA_API_URL: ${{ secrets.RETIA_API_URL }}
-          RETIA_API_PORT: ${{ secrets.RETIA_API_PORT }}
+          RETIA_API_URL: ${{ vars.RETIA_API_URL }}
+          RETIA_API_PORT: ${{ vars.RETIA_API_PORT }}
           RETIA_API_USERNAME: ${{ secrets.RETIA_API_USERNAME }}
           RETIA_API_PASSWORD: ${{ secrets.RETIA_API_PASSWORD }}
