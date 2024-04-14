@@ -63,7 +63,7 @@ class Device extends APIModel implements Synthable
         ?string $motdBanner = null,
         ?string $softwareVersion = null,
         ?string $createdAt = null,
-        ?string $updatedAt = null,
+        ?string $updatedAt = null
     ) {
         $this->name = $name;
         $this->brand = $brand;
@@ -77,8 +77,12 @@ class Device extends APIModel implements Synthable
         $this->loginBanner = $loginBanner;
         $this->motdBanner = $motdBanner;
         $this->softwareVersion = $softwareVersion;
-        $this->createdAt = empty($createdAt) ? now() : Carbon::parse($createdAt);
-        $this->updatedAt = empty($updatedAt) ? now() : Carbon::parse($updatedAt);
+        $this->createdAt = empty($createdAt)
+            ? now()
+            : Carbon::parse($createdAt);
+        $this->updatedAt = empty($updatedAt)
+            ? now()
+            : Carbon::parse($updatedAt);
 
         $this->acls = collect();
         $this->interfaces = collect();
@@ -101,18 +105,31 @@ class Device extends APIModel implements Synthable
             $device['port'] ?? null,
             $device['username'] ?? null,
             $device['secret'] ?? null,
-            empty($device['sys_uptime']) || is_array($device['sys_uptime']) ? null : ($device['sys_uptime'] ?? null),
-            empty($device['login_banner']) || is_array($device['login_banner']) ? null : ($device['login_banner'] ?? null),
-            empty($device['motd_banner']) || is_array($device['motd_banner']) ? null : ($device['motd_banner'] ?? null),
-            empty($device['software_version']) || is_array($device['software_version']) ? null : ($device['software_version'] ?? null),
+            empty($device['sys_uptime']) || is_array($device['sys_uptime'])
+                ? null
+                : $device['sys_uptime'] ?? null,
+            empty($device['login_banner']) || is_array($device['login_banner'])
+                ? null
+                : $device['login_banner'] ?? null,
+            empty($device['motd_banner']) || is_array($device['motd_banner'])
+                ? null
+                : $device['motd_banner'] ?? null,
+            empty($device['software_version']) ||
+            is_array($device['software_version'])
+                ? null
+                : $device['software_version'] ?? null,
             $device['created_at'] ?? null,
-            $device['modified_at'] ?? null,
+            $device['modified_at'] ?? null
         );
     }
 
     public static function all(int $amount = 0): Collection
     {
-        $devices = self::api()->get('device', amount: $amount, resourceName: self::getResourceName());
+        $devices = self::api()->get(
+            'device',
+            amount: $amount,
+            resourceName: self::getResourceName()
+        );
 
         return $devices->map(function ($device) {
             return self::make($device);
@@ -121,75 +138,97 @@ class Device extends APIModel implements Synthable
 
     public static function find(string $device): ?self
     {
-        $device = self::api()->get("device/$device", resourceName: self::getResourceName());
+        $device = self::api()->get(
+            "device/$device",
+            resourceName: self::getResourceName()
+        );
 
-        return empty($device) || $device->count() <= 0 ? null : self::make($device);
+        return empty($device) || $device->count() <= 0
+            ? null
+            : self::make($device);
     }
 
     public static function create(array $data): ?self
     {
-        self::api()->post('device', resourceName: self::getResourceName(), body: [
-            'hostname' => $device = $data['name'],
-            'brand' => $data['brand'],
-            'device_type' => $data['type'],
-            'mgmt_ipaddr' => $data['ip_address'],
-            'port' => $data['port'] ?? null,
-            'username' => $data['username'] ?? null,
-            'secret' => $data['secret'] ?? null,
-            'login_banner' => $data['login_banner'] ?? null,
-            'motd_banner' => $data['motd_banner'] ?? null,
-        ]);
+        self::api()->post(
+            'device',
+            resourceName: self::getResourceName(),
+            body: [
+                'hostname' => ($device = $data['name']),
+                'brand' => $data['brand'],
+                'device_type' => $data['type'],
+                'mgmt_ipaddr' => $data['ip_address'],
+                'port' => $data['port'] ?? null,
+                'username' => $data['username'] ?? null,
+                'secret' => $data['secret'] ?? null,
+                'login_banner' => $data['login_banner'] ?? null,
+                'motd_banner' => $data['motd_banner'] ?? null,
+            ]
+        );
 
         if (session()->has('errors')) {
             return null;
         }
 
         return self::find($device);
-
     }
 
     public function update(array $data): void
     {
-        self::api()->post("device/{$this->name}", resourceName: self::getResourceName(), body: [
-            'hostname' => $data['name'],
-            'brand' => $data['brand'],
-            'device_type' => $data['type'],
-            'mgmt_ipaddr' => $data['ip_address'],
-            'port' => $data['port'] ?? null,
-            'username' => $data['username'] ?? null,
-            'secret' => $data['secret'] ?? null,
-            'login_banner' => $data['login_banner'] ?? null,
-            'motd_banner' => $data['motd_banner'] ?? null,
-        ]);
+        self::api()->post(
+            "device/{$this->name}",
+            resourceName: self::getResourceName(),
+            body: [
+                'hostname' => $data['name'],
+                'brand' => $data['brand'],
+                'device_type' => $data['type'],
+                'mgmt_ipaddr' => $data['ip_address'],
+                'port' => $data['port'] ?? null,
+                'username' => $data['username'] ?? null,
+                'secret' => $data['secret'] ?? null,
+                'login_banner' => $data['login_banner'] ?? null,
+                'motd_banner' => $data['motd_banner'] ?? null,
+            ]
+        );
 
         $this->refresh();
     }
 
     public function save(): self
     {
-        self::api()->put("device/{$this->name}", resourceName: self::getResourceName(), body: [
-            'hostname' => $this->name,
-            'brand' => $this->brand,
-            'device_type' => $this->type,
-            'mgmt_ipaddr' => $this->ipAddress,
-            'port' => $this->port ?? null,
-            'username' => $this->username ?? null,
-            'secret' => $this->secret ?? null,
-            'login_banner' => $this->loginBanner ?? null,
-            'motd_banner' => $this->motdBanner ?? null,
-        ]);
+        self::api()->put(
+            "device/{$this->name}",
+            resourceName: self::getResourceName(),
+            body: [
+                'hostname' => $this->name,
+                'brand' => $this->brand,
+                'device_type' => $this->type,
+                'mgmt_ipaddr' => $this->ipAddress,
+                'port' => $this->port ?? null,
+                'username' => $this->username ?? null,
+                'secret' => $this->secret ?? null,
+                'login_banner' => $this->loginBanner ?? null,
+                'motd_banner' => $this->motdBanner ?? null,
+            ]
+        );
 
         return $this->fresh();
     }
 
     public function delete(): void
     {
-        self::api()->delete("device/{$this->name}", resourceName: self::getResourceName());
+        self::api()->delete(
+            "device/{$this->name}",
+            resourceName: self::getResourceName()
+        );
     }
 
     public function refresh(): void
     {
-        $device = self::api()->get("device/{$this->name}", resourceName: self::getResourceName());
+        $device = self::api()->get(
+            "device/{$this->name}",
+            resourceName: self::getResourceName()
+        );
 
         if (empty($device)) {
             throw new Exception('Device not found!');
@@ -207,8 +246,12 @@ class Device extends APIModel implements Synthable
         $this->loginBanner = $device['login_banner'] ?? null;
         $this->motdBanner = $device['motd_banner'] ?? null;
         $this->softwareVersion = $device['sotfware_version'] ?? null;
-        $this->createdAt = empty($device['created_at']) ? now() : Carbon::parse($device['created_at']);
-        $this->updatedAt = empty($device['modified_at']) ? now() : Carbon::parse($device['modified_at']);
+        $this->createdAt = empty($device['created_at'])
+            ? now()
+            : Carbon::parse($device['created_at']);
+        $this->updatedAt = empty($device['modified_at'])
+            ? now()
+            : Carbon::parse($device['modified_at']);
     }
 
     public function hydrate(): void
@@ -265,7 +308,7 @@ class Device extends APIModel implements Synthable
             $value['motd_banner'],
             $value['software_version'],
             $value['created_at'],
-            $value['modified_at'] ?? null,
+            $value['modified_at'] ?? null
         );
     }
 
@@ -393,12 +436,20 @@ class Device extends APIModel implements Synthable
 
     public function updateStaticRoutes(Collection $data): void
     {
-        self::api()->put("device/{$this->name}/static-route", resourceName: self::getResourceName(), body: [
-            $data->map(fn ($item) => [
-                'prefix' => $item['prefix'],
-                'mask' => $item['mask'],
-                'fwd-list' => $item['forwards'],
-            ])->toArray(),
-        ]);
+        self::api()->put(
+            "device/{$this->name}/static-route",
+            resourceName: self::getResourceName(),
+            body: [
+                $data
+                    ->map(
+                        fn ($item) => [
+                            'prefix' => $item['prefix'],
+                            'mask' => $item['mask'],
+                            'fwd-list' => $item['forwards'],
+                        ]
+                    )
+                    ->toArray(),
+            ]
+        );
     }
 }
