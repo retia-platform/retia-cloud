@@ -165,5 +165,9 @@
         @case('cube')
             <x-icon.cube class="{{ $class }}" solid="{{ $solid }}" />
         @break
+
+        @case('identification')
+            <x-icon.identification class="{{ $class }}" solid="{{ $solid }}" />
+        @break
     @endswitch
 </span>

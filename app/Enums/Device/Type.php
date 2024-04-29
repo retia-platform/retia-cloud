@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Device;
 
-enum DeviceType: string
+enum Type: string
 {
     case ROUTER = 'router';
     case ACCESS_POINT = 'access_point';

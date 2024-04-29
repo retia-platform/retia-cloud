@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Detector;
 
-use App\Enums\DeviceBrand;
-use App\Enums\DeviceStatus;
-use App\Enums\DeviceType;
+use App\Enums\Device\Brand;
+use App\Enums\Device\Status;
+use App\Enums\Device\Type;
 use App\Exports\DetectorExport;
 use App\Interfaces\TableComponent;
 use App\Models\Detector;
@@ -22,9 +22,9 @@ class Index extends Component implements TableComponent
     use HasFilterFromEnum;
 
     public array $filterEnums = [
-        'brands' => DeviceBrand::class,
-        'types' => DeviceType::class,
-        'statuses' => DeviceStatus::class,
+        'brands' => Brand::class,
+        'types' => Type::class,
+        'statuses' => Status::class,
     ];
 
     public array $filters;
@@ -48,7 +48,7 @@ class Index extends Component implements TableComponent
         return [
             'title' => 'Detector',
             'detailRoute' => 'detectors.detail',
-            'storeRoute' => 'detectors.store1',
+            'storeRoute' => 'detectors.store',
             'updateRoute' => 'detectors.update',
             'actionable' => true,
             'deleteable' => true,
@@ -116,7 +116,7 @@ class Index extends Component implements TableComponent
     public function delete(DetectorRepository $detectorRepository, string $detector)
     {
         $detectorRepository->deleteDetector($detector);
-        $this->detectors = $detectorRepository->getDetectors();
+        $this->detectors = $this->filter($detectorRepository);
     }
 
     public function mount(DetectorRepository $detectorRepository)

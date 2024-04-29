@@ -19,9 +19,33 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->superAdministrator = Role::create(['name' => 'Super Administrator']);
-        $this->administrator = Role::create(['name' => 'Administrator']);
-        $this->technician = Role::create(['name' => 'Technician']);
+        // create roles for web guard
+        $this->superAdministrator = Role::create([
+            'name' => \App\Enums\User\Role::SUPER_ADMINISTRATOR->label(),
+            'guard_name' => 'web',
+        ]);
+        $this->administrator = Role::create([
+            'name' => \App\Enums\User\Role::ADMINISTRATOR->label(),
+            'guard_name' => 'web',
+        ]);
+        $this->technician = Role::create([
+            'name' => \App\Enums\User\Role::TECHNICIAN->label(),
+            'guard_name' => 'web',
+        ]);
+
+        // create roles for sanctum guard
+        Role::create([
+            'name' => \App\Enums\User\Role::SUPER_ADMINISTRATOR->label(),
+            'guard_name' => 'sanctum',
+        ]);
+        Role::create([
+            'name' => \App\Enums\User\Role::ADMINISTRATOR->label(),
+            'guard_name' => 'sanctum',
+        ]);
+        Role::create([
+            'name' => \App\Enums\User\Role::TECHNICIAN->label(),
+            'guard_name' => 'sanctum',
+        ]);
 
         // setting permissions
         $this->applyPermissionsToAllRole([

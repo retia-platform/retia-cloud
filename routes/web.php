@@ -70,8 +70,7 @@ Route::middleware([
     Route::prefix('detectors')->group(function () {
         Route::get('/', \App\Livewire\Detector\Index::class)->name('detectors');
         Route::get('detail', \App\Livewire\Device\Detail::class)->name('detectors.detail');
-        Route::get('store1', \App\Livewire\Device\Store1::class)->name('detectors.store1');
-        Route::get('store2', \App\Livewire\Device\Store1::class)->name('detectors.store2');
+        Route::get('store', \App\Livewire\Device\Store1::class)->name('detectors.store');
         Route::get('update', \App\Livewire\Device\Update::class)->name('detectors.update');
     });
 
@@ -82,6 +81,9 @@ Route::middleware([
 
     // Users
     Route::prefix('users')->group(function () {
-        Route::get('/', \App\Livewire\Log\Index::class)->name('users');
+        Route::get('/', \App\Livewire\User\Index::class)->name('users');
+        Route::get('detail', \App\Livewire\Device\Detail::class)->name('users.detail');
+        Route::get('store', \App\Livewire\Device\Store1::class)->name('users.store');
+        Route::get('update', \App\Livewire\Device\Update::class)->name('users.update');
     });
 });

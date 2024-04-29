@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Device;
 
-enum DeviceBrand: string
+enum Brand: string
 {
     case CISCO = 'cisco';
     case MIKROTIK = 'mikrotik';

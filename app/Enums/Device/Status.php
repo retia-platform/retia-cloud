@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Device;
 
-enum DeviceStatus: string
+enum Status: string
 {
     case RUNNING = 'running';
     case DOWN = 'down';

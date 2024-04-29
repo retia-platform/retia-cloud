@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Device;
 
-use App\Enums\DeviceBrand;
-use App\Enums\DeviceType;
+use App\Enums\Device\Brand;
+use App\Enums\Device\Type;
 use App\Repositories\DeviceRepository;
 use App\Traits\HasSessionError;
 use Livewire\Component;
@@ -34,8 +34,8 @@ class Store2 extends Component
     {
         $this->validate([
             'name' => ['required', 'string', 'max:255'],
-            'brand' => 'required|string|in:'.implode(',', DeviceBrand::labels()),
-            'type' => 'required|string|in:'.implode(',', DeviceType::labels()),
+            'brand' => 'required|string|in:'.implode(',', Brand::labels()),
+            'type' => 'required|string|in:'.implode(',', Type::labels()),
             'ipAddress' => 'required|string|ip',
             'port' => 'required|integer|min:1|max:65535',
             'username' => 'required|string|max:255',
@@ -63,9 +63,9 @@ class Store2 extends Component
 
     public function mount()
     {
-        $this->brands = DeviceBrand::labelAndValues();
+        $this->brands = Brand::labelAndValues();
         $this->brand = $this->brands[0]['label'];
-        $this->types = DeviceType::labelAndValues();
+        $this->types = Type::labelAndValues();
         $this->type = $this->types[0]['label'];
     }
 

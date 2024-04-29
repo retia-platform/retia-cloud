@@ -74,17 +74,17 @@ class User extends Authenticatable implements Synthable
 
     public function isSuperAdministrator(): bool
     {
-        return $this->hasRole('Super Administrator');
+        return $this->hasRole(\App\Enums\User\Role::SUPER_ADMINISTRATOR->label());
     }
 
     public function isAdministrator(): bool
     {
-        return $this->hasRole('Administrator');
+        return $this->hasRole(\App\Enums\User\Role::ADMINISTRATOR->label());
     }
 
     public function isTechnician(): bool
     {
-        return $this->hasRole('Technician');
+        return $this->hasRole(\App\Enums\User\Role::TECHNICIAN->label());
     }
 
     public function refreshRetiaApiToken(): self

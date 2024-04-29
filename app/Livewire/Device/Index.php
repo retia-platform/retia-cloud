@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Device;
 
-use App\Enums\DeviceBrand;
-use App\Enums\DeviceStatus;
-use App\Enums\DeviceType;
+use App\Enums\Device\Brand;
+use App\Enums\Device\Status;
+use App\Enums\Device\Type;
 use App\Exports\DeviceExport;
 use App\Interfaces\TableComponent;
 use App\Repositories\DeviceRepository;
@@ -21,9 +21,9 @@ class Index extends Component implements TableComponent
     use HasFilterFromEnum;
 
     public array $filterEnums = [
-        'brands' => DeviceBrand::class,
-        'types' => DeviceType::class,
-        'statuses' => DeviceStatus::class,
+        'brands' => Brand::class,
+        'types' => Type::class,
+        'statuses' => Status::class,
     ];
 
     public array $filters;
@@ -115,7 +115,7 @@ class Index extends Component implements TableComponent
     public function delete(DeviceRepository $deviceRepository, string $device)
     {
         $deviceRepository->deleteDevice($device);
-        $this->devices = $deviceRepository->getDevices();
+        $this->devices = $this->filter($deviceRepository);
     }
 
     public function mount(DeviceRepository $deviceRepository)

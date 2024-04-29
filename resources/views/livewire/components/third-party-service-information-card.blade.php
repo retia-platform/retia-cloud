@@ -15,7 +15,7 @@
         </div>
         <div class="w-full flex justify-end mb-10">
             <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
-                <x-arrow-button>{{ $button }}</x-arrow-button>
+                <x-arrow-button :small="true">{{ $button }}</x-arrow-button>
             </a>
         </div>
     </div>
