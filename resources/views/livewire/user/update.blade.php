@@ -42,12 +42,13 @@
                         :for="$label">
                         <div class="flex items-center">
                             <input wire:model="filters.role"
-                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600" type="radio"
-                                value="technician" :id="$label" />
+                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600"
+                                type="radio" value="technician" :id="$label" />
                         </div>
                         <div>
                             <strong class="font-medium text-md text-gray-900"> Technician </strong>
-                            <p class="font-normal text-xs text-gray-700 mt-2"> Allow user to access only on some basic features. </p>
+                            <p class="font-normal text-xs text-gray-700 mt-2"> Allow user to access only on some basic
+                                features. </p>
                         </div>
                     </label>
                     <label
@@ -55,12 +56,13 @@
                         :for="$label">
                         <div class="flex items-center">
                             <input wire:model="filters.role"
-                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600" type="radio"
-                                value="administrator" :id="$label" />
+                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600"
+                                type="radio" value="administrator" :id="$label" />
                         </div>
                         <div>
                             <strong class="font-medium text-md text-gray-900"> Administrator </strong>
-                            <p class="font-normal text-xs text-gray-700 mt-2"> Allow user to access all of the features. </p>
+                            <p class="font-normal text-xs text-gray-700 mt-2"> Allow user to access all of the features.
+                            </p>
                         </div>
                     </label>
                 </div>
@@ -112,8 +114,8 @@
                     <x-icon type="fingerprint" class="w-4 h-4 mt-0.5 me-1" />
                     <x-label for="name" value="{{ __('Confirm New Password') }}" />
                 </div>
-                <x-input id="password_confirmation" autocomplete="password_confirmation" type="password" placeholder="••••••••"
-                    class="mt-1 block w-full text-sm" wire:model="passwordConfirmation" />
+                <x-input id="password_confirmation" autocomplete="password_confirmation" type="password"
+                    placeholder="••••••••" class="mt-1 block w-full text-sm" wire:model="passwordConfirmation" />
                 <span class="mt-2 text-xs"> Re-type the new account password. </span>
                 <x-input-error for="password_confirmation" class="mt-2" />
             </div>

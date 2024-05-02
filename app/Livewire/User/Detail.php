@@ -2,9 +2,6 @@
 
 namespace App\Livewire\User;
 
-use App\Enums\Device\Brand;
-use App\Enums\Device\Type;
-use App\Repositories\DeviceRepository;
 use App\Traits\HasSessionError;
 use Livewire\Component;
 

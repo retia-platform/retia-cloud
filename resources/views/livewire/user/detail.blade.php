@@ -41,12 +41,13 @@
                         :for="$label">
                         <div class="flex items-center">
                             <input wire:model="filters.role"
-                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600" type="radio"
-                                value="technician" :id="$label" />
+                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600"
+                                type="radio" value="technician" :id="$label" />
                         </div>
                         <div>
                             <strong class="font-bold text-md text-gray-900"> Technician </strong>
-                            <p class="font-medium text-sm text-gray-700 mt-2"> Allow user to access only on some basic features. </p>
+                            <p class="font-medium text-sm text-gray-700 mt-2"> Allow user to access only on some basic
+                                features. </p>
                         </div>
                     </label>
                     <label
@@ -54,12 +55,13 @@
                         :for="$label">
                         <div class="flex items-center">
                             <input wire:model="filters.role"
-                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600" type="radio"
-                                value="administrator" :id="$label" />
+                                class="size-4 mt-0.5 rounded-full text-gray-900 shadow-sm focus:ring-gray-600"
+                                type="radio" value="administrator" :id="$label" />
                         </div>
                         <div>
                             <strong class="font-bold text-md text-gray-900"> Administrator </strong>
-                            <p class="font-medium text-sm text-gray-700 mt-2"> Allow user to access all of the features. </p>
+                            <p class="font-medium text-sm text-gray-700 mt-2"> Allow user to access all of the features.
+                            </p>
                         </div>
                     </label>
                 </div>
