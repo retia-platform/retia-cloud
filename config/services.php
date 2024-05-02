@@ -32,7 +32,7 @@ return [
     ],
 
     'retia_api' => [
-        'url' => env('RETIA_API_URL').':'.env('RETIA_API_PORT').'/',
+        'url' => env('RETIA_API_URL').'/',
         'username' => env('RETIA_API_USERNAME'),
         'password' => env('RETIA_API_PASSWORD'),
     ],

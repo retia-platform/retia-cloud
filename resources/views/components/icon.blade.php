@@ -106,6 +106,10 @@
             <x-icon.trash class="{{ $class }}" solid="{{ $solid }}" />
         @break
 
+        @case('user')
+            <x-icon.user class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
         @case('user-group')
             <x-icon.user-group class="{{ $class }}" solid="{{ $solid }}" />
         @break
@@ -168,6 +172,10 @@
 
         @case('identification')
             <x-icon.identification class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
+        @case('key')
+            <x-icon.key class="{{ $class }}" solid="{{ $solid }}" />
         @break
     @endswitch
 </span>

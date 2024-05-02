@@ -82,8 +82,8 @@ Route::middleware([
     // Users
     Route::prefix('users')->group(function () {
         Route::get('/', \App\Livewire\User\Index::class)->name('users');
-        Route::get('detail', \App\Livewire\Device\Detail::class)->name('users.detail');
-        Route::get('store', \App\Livewire\Device\Store1::class)->name('users.store');
-        Route::get('update', \App\Livewire\Device\Update::class)->name('users.update');
+        Route::get('detail', \App\Livewire\User\Detail::class)->name('users.detail');
+        Route::get('store', \App\Livewire\User\Store::class)->name('users.store');
+        Route::get('update', \App\Livewire\User\Update::class)->name('users.update');
     });
 });
