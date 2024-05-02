@@ -1,8 +1,0 @@
-app = "retia-cloud"
-primary_region = "sin"
-kill_signal = "SIGTERM"
-kill_timeout = 300
-services = []
-
-[env]
-APP_URL = "https://retia.fly.dev"
