@@ -14,9 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(DispatchQueueCheckJobsCommand::class)->everyMinute();
+        $schedule->command(DispatchQueueCheckJobsCommand::class)->everyFiveMinutes();
 
-        $schedule->command(RunHealthChecksCommand::class)->everyHour();
+        $schedule->command(RunHealthChecksCommand::class)->hourly();
     }
 
     /**

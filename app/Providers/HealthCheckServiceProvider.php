@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Ahtinurme\OctaneCheck;
 use Illuminate\Support\ServiceProvider;
 use QueueSizeCheck\QueueSizeCheck;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
