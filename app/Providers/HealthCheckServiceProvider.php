@@ -55,7 +55,7 @@ class HealthCheckServiceProvider extends ServiceProvider
             ScheduleCheck::new(),
             SecurityAdvisoriesCheck::new(),
             UsedDiskSpaceCheck::new(),
-            SslCertificationValidCheck::new()->url(config('app.url')),
+            // SslCertificationValidCheck::new()->url(config('app.url')),
             // BackupsCheck::new(),
             // OctaneCheck::new(),
         ]);

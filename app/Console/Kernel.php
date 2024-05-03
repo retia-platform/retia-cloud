@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(DispatchQueueCheckJobsCommand::class)->everyMinute();
 
-        $schedule->command(RunHealthChecksCommand::class)->everyMinute();
+        $schedule->command(RunHealthChecksCommand::class)->everyHour();
     }
 
     /**
