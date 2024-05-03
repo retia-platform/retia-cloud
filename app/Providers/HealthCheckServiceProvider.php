@@ -40,7 +40,6 @@ class HealthCheckServiceProvider extends ServiceProvider
     {
         Health::checks([
             CacheCheck::new(),
-            // BackupsCheck::new(),
             CpuLoadCheck::new(),
             DatabaseCheck::new(),
             DatabaseConnectionCountCheck::new(),
@@ -57,7 +56,8 @@ class HealthCheckServiceProvider extends ServiceProvider
             SecurityAdvisoriesCheck::new(),
             UsedDiskSpaceCheck::new(),
             SslCertificationValidCheck::new()->url(config('app.url')),
-            OctaneCheck::new(),
+            // BackupsCheck::new(),
+            // OctaneCheck::new(),
         ]);
     }
 }
