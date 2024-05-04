@@ -2,39 +2,39 @@ name: Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.3'
-    - uses: actions/checkout@v3
-    - name: Setup Environment Variables
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Setup Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
-    - name: Install Composer Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Install Yarn Dependencies
-      run: yarn install --frozen-lockfile
-    - name: Build Frontend Assets
-      run: yarn build
-    - name: Generate Application Key
-      run: php artisan key:generate
-    - name: Remove Existing Application Caches
-      run: php artisan optimize:clear
-    - name: Create Database
-      run: mkdir -p database && touch database/database.sqlite
-    - name: Execute Tests (Unit and Feature tests) via PHPUnit
-      run: php artisan test --parallel
-      env:
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: "8.3"
+      - uses: actions/checkout@v3
+      - name: Setup Environment Variables
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Setup Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Install Yarn Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build Frontend Assets
+        run: yarn build
+      - name: Generate Application Key
+        run: php artisan key:generate
+      - name: Remove Existing Application Caches
+        run: php artisan optimize:clear
+      - name: Create Database
+        run: mkdir -p database && touch database/database.sqlite
+      - name: Execute Tests (Unit and Feature tests) via PHPUnit
+        run: php artisan test --parallel
+        env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+          DB_DATABASE: ":memory:"
           RETIA_API_URL: ${{ secrets.RETIA_API_URL }}
           RETIA_API_PORT: ${{ secrets.RETIA_API_PORT }}
           RETIA_API_USERNAME: ${{ secrets.RETIA_API_USERNAME }}
