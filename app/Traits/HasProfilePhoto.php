@@ -87,7 +87,7 @@ trait HasProfilePhoto
      */
     protected function profilePhotoDisk()
     {
-        $disk = env('FILESYSTEM_DISK', 'local');
+        $disk = config('filesystems.default', 'local');
 
         return $disk === 'local' ? config('jetstream.profile_photo_disk', 'public') : $disk;
     }
