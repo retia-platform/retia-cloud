@@ -19,7 +19,6 @@
     @livewireChartsScripts
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if (app()->environment('production'))
         @once
             <!-- Cloudflare Web Analytics -->
@@ -92,6 +91,9 @@
     <div class="hidden whitespace-nowrap rounded-full px-2.5 py-0.5"></div>
 
     @stack('modals')
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
 
 </html>
