@@ -7,9 +7,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
+    <!-- Preconnects -->
+    <link rel="preconnect" href="{{ config('app.url') }}" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+
+    <!-- Fonts -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
 
@@ -19,12 +23,11 @@
     @livewireChartsScripts
 
     <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if (app()->environment('production'))
         @once
-            <!-- Cloudflare Web Analytics -->
             <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-spa="auto"
                 data-cf-beacon='{"token": "83fc6447285a42cd8d3d6ad10f4dac0a"}'></script>
-            <!-- End Cloudflare Web Analytics -->
         @endonce
     @endif
 </head>
@@ -91,9 +94,6 @@
     <div class="hidden whitespace-nowrap rounded-full px-2.5 py-0.5"></div>
 
     @stack('modals')
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
 
 </html>
