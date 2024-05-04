@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-trait HasR2ProfilePhoto
+trait HasProfilePhoto
 {
     /**
      * Update the user's profile photo.
