@@ -8,10 +8,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Preconnects -->
-    <link rel="preconnect" href="{{ config('app.url') }}" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+    <link rel="preconnect" href="{{ config('app.url') }}" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://cloudflareinsights.com" crossorigin />
 
     <!-- Fonts -->
     <link rel="stylesheet"
@@ -23,7 +24,8 @@
     @livewireChartsScripts
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+    @vite('resources/css/app.css')
     @if (app()->environment('production'))
         @once
             <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-spa="auto"
