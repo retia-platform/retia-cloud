@@ -1,4 +1,4 @@
-@props(['label'])
+@props(['value', 'label'])
 
 <label
     class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 text-sm"
