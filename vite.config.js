@@ -8,7 +8,7 @@ export default defineConfig({
       refresh: true,
     }),
   ],
-  build: {
-    polyfillModulePreload: true,
+  modulePreload: {
+    polyfill: true,
   },
 });
