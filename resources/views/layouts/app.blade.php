@@ -20,6 +20,14 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (app()->environment('production'))
+        @once
+            <!-- Cloudflare Web Analytics -->
+            <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-spa="auto"
+                data-cf-beacon='{"token": "83fc6447285a42cd8d3d6ad10f4dac0a"}'></script>
+            <!-- End Cloudflare Web Analytics -->
+        @endonce
+    @endif
 </head>
 
 <body class="font-sans antialiased">
@@ -84,15 +92,6 @@
     <div class="hidden whitespace-nowrap rounded-full px-2.5 py-0.5"></div>
 
     @stack('modals')
-
-    @if (app()->environment('production'))
-        @once
-            <!-- Cloudflare Web Analytics -->
-            <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-                data-cf-beacon='{"token": "83fc6447285a42cd8d3d6ad10f4dac0a"}'></script>
-            <!-- End Cloudflare Web Analytics -->
-        @endonce
-    @endif
 </body>
 
 </html>
