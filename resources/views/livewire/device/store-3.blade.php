@@ -88,12 +88,12 @@
             <div class="me-4 text-sm" wire:loading>
                 {{ __('Loading...') }}
             </div>
-            <a wire:navigate href="{{ route('devices.store2') }}">
+            <a href="{{ route('devices.store2') }}">
                 <x-secondary-button class="me-4">
                     {{ __('Back') }}
                 </x-secondary-button>
             </a>
-            <a wire:navigate href="{{ route('devices.store4', ['device' => 'router-a']) }}">
+            <a href="{{ route('devices.store4', ['device' => 'router-a']) }}">
                 <x-secondary-button class="me-4">
                     {{ __('Skip') }}
                 </x-secondary-button>

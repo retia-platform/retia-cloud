@@ -75,7 +75,7 @@
             <div class="me-4 text-sm" wire:loading>
                 {{ __('Updating...') }}
             </div>
-            <a wire:navigate href="{{ route('devices') }}">
+            <a href="{{ route('devices') }}">
                 <x-secondary-button class="me-4">
                     {{ __('Cancel') }}
                 </x-secondary-button>
@@ -127,7 +127,7 @@
             <div class="me-4 text-sm" wire:loading>
                 {{ __('Reseting...') }}
             </div>
-            <a wire:navigate href="{{ route('devices') }}">
+            <a href="{{ route('devices') }}">
                 <x-secondary-button class="me-4">
                     {{ __('Cancel') }}
                 </x-secondary-button>

@@ -7,7 +7,7 @@
             <span
                 class="inline-flex justify-end -space-x-px overflow-hidden rounded-md bg-white @if (!empty($storeRoute) || $exportable) border @endif">
                 @if (!empty($storeRoute))
-                    <a wire:navigate href="{{ route($storeRoute) }}" class="flex">
+                    <a href="{{ route($storeRoute) }}" class="flex">
                         <button
                             class="inline-block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:relative">
                             Add {{ $title }}
@@ -68,7 +68,7 @@
                                         <div
                                             class="inline-flex items-center overflow-hidden rounded-md border bg-white">
                                             @if (!empty($detailRoute))
-                                                <a wire:navigate href="{{ route($detailRoute) }}"
+                                                <a href="{{ route($detailRoute) }}"
                                                     class="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
                                                     Detail
                                                 </a>
@@ -85,12 +85,12 @@
                                             x-on:keydown.escape.window="isActive = false">
                                             <div class="p-2">
                                                 @if (!empty($detailRoute))
-                                                    <a wire:navigate href="{{ route($detailRoute) }}"
+                                                    <a href="{{ route($detailRoute) }}"
                                                         class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                                                         role="menuitem"> See Detail </a>
                                                 @endif
                                                 @if (!empty($updateRoute))
-                                                    <a wire:navigate href="{{ route($updateRoute) }}"
+                                                    <a href="{{ route($updateRoute) }}"
                                                         class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                                                         role="menuitem"> Edit {{ $title }} </a>
                                                 @endif

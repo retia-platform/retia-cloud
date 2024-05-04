@@ -66,7 +66,7 @@
     <div class="w-full grid grid-cols-1 lg:grid-cols-1 gap-12 mt-12">
         <x-table-statistic-card wire:key="table-statistic-card-1" title="Top 10 Devices" :empty="empty($devices)">
             <x-slot name="buttons">
-                <a wire:navigate href="{{ route('devices') }}">
+                <a href="{{ route('devices') }}">
                     <x-arrow-button>See All Devices</x-arrow-button>
                 </a>
             </x-slot>

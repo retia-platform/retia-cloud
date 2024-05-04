@@ -6,7 +6,7 @@
         <p class="text-gray-600 text-md text-center mt-2">
             {{ __('Device information and configuration can be updated later in the system.') }} </p>
         <div class="flex justify-center mt-8">
-            <a wire:navigate href="{{ route('devices') }}">
+            <a href="{{ route('devices') }}">
                 <x-secondary-button class="me-4">
                     {{ __('Return to Device List') }}
                 </x-secondary-button>

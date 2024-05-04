@@ -31,12 +31,12 @@
                     </label>
                 </div>
                 <div class="flex justify-end">
-                    <a wire:navigate href="{{ route('devices') }}">
+                    <a href="{{ route('devices') }}">
                         <x-secondary-button type="button" class="me-4">
                             {{ __('Cancel') }}
                         </x-secondary-button>
                     </a>
-                    <a wire:navigate href="{{ route('devices.store2') }}">
+                    <a href="{{ route('devices.store2') }}">
                         <x-button type="button">
                             {{ __('Next') }}
                         </x-button>

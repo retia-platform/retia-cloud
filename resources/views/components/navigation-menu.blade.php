@@ -64,7 +64,7 @@
 
                 <!-- Notification -->
                 <div class="ms-3 relative flex">
-                    <a wire:navigate href="{{ route('notifications') }}">
+                    <a href="{{ route('notifications') }}">
                         <x-icon type="bell" class="w-5 h-5 mr-4" :solid="request()->routeIs('notifications')" />
                     </a>
                 </div>
