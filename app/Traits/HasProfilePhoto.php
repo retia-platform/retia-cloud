@@ -16,6 +16,9 @@ trait HasProfilePhoto
      */
     public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos')
     {
+        dd($photo->storePublicly(
+            $storagePath, ['disk' => $this->profilePhotoDisk()]
+        ));
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
                 'profile_photo_path' => $photo->storePublicly(
@@ -86,6 +89,6 @@ trait HasProfilePhoto
     {
         $disk = env('FILESYSTEM_DISK', 'local');
 
-        return $disk === 'local' ? 'public' : $disk;
+        return $disk === 'local' ? config('jetstream.profile_photo_disk', 'public') : $disk;
     }
 }
