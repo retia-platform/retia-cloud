@@ -16,11 +16,9 @@ use Spatie\Health\Checks\Checks\HorizonCheck;
 use Spatie\Health\Checks\Checks\PingCheck;
 use Spatie\Health\Checks\Checks\QueueCheck;
 use Spatie\Health\Checks\Checks\RedisCheck;
-use Spatie\Health\Checks\Checks\ScheduleCheck;
 use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
 use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
-use VictoRD11\SslCertificationHealthCheck\SslCertificationValidCheck;
 
 class HealthCheckServiceProvider extends ServiceProvider
 {
@@ -51,9 +49,9 @@ class HealthCheckServiceProvider extends ServiceProvider
             QueueCheck::new(),
             QueueSizeCheck::new(),
             RedisCheck::new(),
-            ScheduleCheck::new(),
             SecurityAdvisoriesCheck::new(),
             UsedDiskSpaceCheck::new(),
+            // ScheduleCheck::new(),
             // SslCertificationValidCheck::new()->url(config('app.url')),
             // BackupsCheck::new(),
             // OctaneCheck::new(),
