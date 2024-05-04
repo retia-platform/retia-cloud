@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Synthable;
+use App\Traits\HasR2ProfilePhoto;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -19,7 +19,7 @@ class User extends Authenticatable implements Synthable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
+    use HasR2ProfilePhoto;
     use HasRoles;
     use Notifiable;
     use TwoFactorAuthenticatable;
