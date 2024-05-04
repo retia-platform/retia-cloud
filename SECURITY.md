@@ -1,6 +1,6 @@
-# Security Policy
+## Security Policy
 
-## Supported Versions
+### Supported Versions
 
 Versions that currently being supported with security updates.
 

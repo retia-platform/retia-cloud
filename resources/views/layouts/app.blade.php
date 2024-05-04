@@ -85,6 +85,13 @@
     <div class="hidden whitespace-nowrap rounded-full px-2.5 py-0.5"></div>
 
     @stack('modals')
+
+    @once
+        <!-- Cloudflare Web Analytics -->
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon='{"token": "83fc6447285a42cd8d3d6ad10f4dac0a"}'></script>
+        <!-- End Cloudflare Web Analytics -->
+    @endonce
 </body>
 
 </html>
