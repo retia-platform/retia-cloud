@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\Features;
 
@@ -18,8 +17,6 @@ trait HasProfilePhoto
      */
     public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos')
     {
-        Log::error($this->profilePhotoDisk());
-
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
                 'profile_photo_path' => $photo->storePublicly(
@@ -40,8 +37,6 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto()
     {
-        Log::error($this->profilePhotoDisk());
-
         if (! Features::managesProfilePhotos()) {
             return;
         }
