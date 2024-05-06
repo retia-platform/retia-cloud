@@ -93,9 +93,9 @@
                                                         role="menuitem"> See Detail </a>
                                                 @endif
                                                 @if (!empty($updateRoute))
-                                                    <a href="{{ route($updateRoute) }}"
+                                                    <a href="{{ route($updateRoute, ['id' => $item[0]]) }}"
                                                         class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                                        role="menuitem"> Edit {{ $title }} </a>
+                                                        role="menuitem"> Update {{ $title }} </a>
                                                 @endif
                                             </div>
                                             @if ($deleteable)

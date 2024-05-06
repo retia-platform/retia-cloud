@@ -1,12 +1,8 @@
-<a href="https://github.com/retia-platform/retia-cloud/actions/workflows/build.yml">
-  <img src="https://github.com/retia-platform/retia-cloud/actions/workflows/build.yml/badge.svg" alt="Build" target="_blank" rel="noopener noreferrer">
-</a>
-<a href="https://github.com/retia-platform/retia-cloud/actions/workflows/github-code-scanning/codeql">
-  <img src="https://github.com/retia-platform/retia-cloud/actions/workflows/github-code-scanning/codeql/badge.svg" alt="CodeQL Analysis" target="_blank" rel="noopener noreferrer">
-</a>
-<a href="https://github.com/retia-platform/retia-cloud/blob/main/LICENSE">
-  <img src="https://img.shields.io/github/license/retia-platform/retia-cloud" alt="License" target="_blank" rel="noopener noreferrer">
-</a>
+<div>
+  <img alt="Build" src="https://github.com/retia-platform/retia-cloud/actions/workflows/build.yml/badge.svg" />
+  <img alt="CodeQL Analysis" src="https://github.com/retia-platform/retia-cloud/actions/workflows/github-code-scanning/codeql/badge.svg" />
+  <img alt="License" src="https://img.shields.io/github/license/retia-platform/retia-cloud" />
+</div>
 
 ## ☁️ retia cloud
 

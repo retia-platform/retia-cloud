@@ -7,7 +7,6 @@ use App\Enums\LogInstance;
 use App\Enums\LogSeverity;
 use App\Models\Log;
 use App\Traits\HasSessionError;
-use Exception;
 use Livewire\Component;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

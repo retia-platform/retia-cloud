@@ -74,7 +74,7 @@
             <div class="me-4 text-sm" wire:loading>
                 {{ __('Saving...') }}
             </div>
-            <a href="{{ route('devices') }}">
+            <a href="{{ route('users') }}">
                 <x-secondary-button class="me-4">
                     {{ __('Cancel') }}
                 </x-secondary-button>

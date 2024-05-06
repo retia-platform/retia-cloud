@@ -70,7 +70,7 @@ Route::middleware([
     Route::prefix('detectors')->group(function () {
         Route::get('/', \App\Livewire\Detector\Index::class)->name('detectors');
         Route::get('detail', \App\Livewire\Device\Detail::class)->name('detectors.detail');
-        Route::get('store', \App\Livewire\Device\Store1::class)->name('detectors.store');
+        Route::get('store', \App\Livewire\Detector\Store::class)->name('detectors.store');
         Route::get('update', \App\Livewire\Device\Update::class)->name('detectors.update');
     });
 
