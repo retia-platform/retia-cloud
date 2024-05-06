@@ -2,27 +2,29 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Vault;
 use App\Models\Log;
 use Illuminate\Support\Collection;
 
 class LogRepository
 {
-    private ?Collection $cachedMonthlyLogs = null;
-
-    private ?Collection $cachedWeeklyLogs = null;
-
     /**
      * Monthly Logs
      * --------------------
      */
     public function getMonthlyLogs(
         int $amount = 0, // 0 means all
+        bool $fresh = false,
     ): Collection {
-        if (! empty($this->cachedMonthlyLogs)) {
-            return $this->cachedMonthlyLogs;
+        if (! $fresh && ! empty($cache = Vault::get('getMonthlyLogs'))) {
+            return $cache;
         }
 
-        return $this->cachedMonthlyLogs = Log::all(now()->startOfMonth(), now()->endOfMonth(), $amount);
+        $monthlyLogs = Log::all(now()->startOfMonth(), now()->endOfMonth(), $amount);
+
+        Vault::set('getMonthlyLogs', $monthlyLogs);
+
+        return $monthlyLogs;
     }
 
     public function getMonthlyLogAmount(): int
@@ -41,12 +43,17 @@ class LogRepository
      */
     public function getWeeklyLogs(
         int $amount = 0, // 0 means all
+        bool $fresh = false,
     ): Collection {
-        if (! empty($this->cachedWeeklyLogs)) {
-            return $this->cachedWeeklyLogs;
+        if (! $fresh && ! empty($cache = Vault::get('getWeeklyLogs'))) {
+            return $cache;
         }
 
-        return $this->cachedWeeklyLogs = Log::all(now()->startOfWeek(), now()->endOfWeek(), $amount);
+        $weeklyLogs = Log::all(now()->startOfWeek(), now()->endOfWeek(), $amount);
+
+        Vault::set('getWeeklyLogs', $weeklyLogs);
+
+        return $weeklyLogs;
     }
 
     public function getWeeklyLogAmount(): int

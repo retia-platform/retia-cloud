@@ -35,5 +35,6 @@ return [
         'url' => env('RETIA_API_URL').'/',
         'username' => env('RETIA_API_USERNAME'),
         'password' => env('RETIA_API_PASSWORD'),
+        'cache_invalidate_minutes' => (int) env('RETIA_API_CACHE_INVALIDATE_MINUTES', 5),
     ],
 ];

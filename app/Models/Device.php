@@ -151,7 +151,7 @@ class Device extends APIModel implements Synthable
             : self::make($device);
     }
 
-    public static function create(array $data): ?self
+    public static function add(array $data): ?self
     {
         self::api()->post(
             'device',
@@ -333,7 +333,7 @@ class Device extends APIModel implements Synthable
         return DeviceAcl::find($this, $acl);
     }
 
-    public function createAcl(array $data): DeviceAcl
+    public function addAcl(array $data): DeviceAcl
     {
         return DeviceAcl::create($this, $data);
     }
@@ -399,7 +399,7 @@ class Device extends APIModel implements Synthable
         return DeviceOspf::find($this, $ospf);
     }
 
-    public function createOspf(array $data): DeviceOspf
+    public function addOspf(array $data): DeviceOspf
     {
         return DeviceOspf::create($this, $data);
     }

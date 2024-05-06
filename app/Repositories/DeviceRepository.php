@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Vault;
 use App\Models\Device;
 use App\Models\DeviceAcl;
 use App\Models\DeviceInterface;
@@ -10,38 +11,40 @@ use Illuminate\Support\Collection;
 
 class DeviceRepository
 {
-    private ?Device $cachedDevice = null;
-
-    private ?Collection $cachedDevices = null;
-
-    private ?Collection $cachedAcls = null;
-
-    private ?Collection $cachedInterfaces = null;
-
-    private ?Collection $cachedOspfs = null;
-
-    private ?Collection $cachedStaticRoutes = null;
-
     /**
      * Devices
      * --------------------
      */
-    public function getDevices(int $amount = 0): Collection
+    public function getDevices(int $amount = 0, bool $fresh = false): Collection
     {
-        if (! empty($this->cachedDevices)) {
-            return $this->cachedDevices;
+        if (! $fresh && ! empty($cache = Vault::get('getDevices'))) {
+            return $cache;
         }
 
-        return $this->cachedDevices = Device::all(amount: $amount);
+        $devices = Device::all(amount: $amount);
+
+        Vault::set('getDevices', $devices);
+
+        return $devices;
     }
 
-    public function getDevice(string $name): ?Device
+    public function getDevice(string $name, bool $fresh = false): ?Device
     {
-        if ($name === $this->cachedDevice?->name) {
-            return $this->cachedDevice;
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getDevice'))
+            && ! empty($cachedName = Vault::get('getDevice-name'))
+            && $cachedName === $name
+        ) {
+            return $cache;
         }
 
-        return $this->cachedDevice = Device::find($name);
+        $device = Device::find($name);
+
+        Vault::set('getDevice', $device);
+        Vault::set('getDevice-name', $name);
+
+        return $device;
     }
 
     public function getDeviceAmount(): int
@@ -63,14 +66,14 @@ class DeviceRepository
         return $this->getRunningDeviceAmount() / $this->getDeviceAmount() * 100;
     }
 
-    public function createDevice(array $data): ?Device
+    public function addDevice(array $data): ?Device
     {
-        return Device::create($data);
+        return Device::add($data);
     }
 
     public function updateDevice(string $device, array $data): Device
     {
-        $device = $this->getDevice($device);
+        $device = $this->getDevice($device, fresh: true);
 
         $device->update($data);
 
@@ -79,65 +82,119 @@ class DeviceRepository
 
     public function deleteDevice(string $device): void
     {
-        $this->getDevice($device)->delete();
+        $this->getDevice($device, fresh: true)->delete();
     }
 
     /**
      * Device Static ACLs
      * --------------------
      */
-    public function getAcls(Device $device, int $amount = 0): Collection
+    public function getAcls(Device $device, int $amount = 0, bool $fresh = false): Collection
     {
-        if (! empty($this->cachedAcls)) {
-            return $this->cachedAcls;
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getAcls'))
+            && ! empty($cachedDevice = Vault::get('getAcls-device'))
+            && $cachedDevice->name === $device->name
+        ) {
+            return $cache;
         }
 
-        return $this->cachedAcls = $device->getAcls(amount: $amount);
+        $acls = $device->getAcls(amount: $amount);
+
+        Vault::set('getAcls', $acls);
+        Vault::set('getAcls-device', $device);
+
+        return $acls;
     }
 
-    public function getAcl(Device $device, string $acl): DeviceAcl
+    public function getAcl(Device $device, string $aclName, bool $fresh = false): DeviceAcl
     {
-        return $device->findAcl($acl);
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getAcl'))
+            && ! empty($cachedDevice = Vault::get('getAcl-device'))
+            && ! empty($cachedAclName = Vault::get('getAcl-aclName'))
+            && $cachedDevice->name === $device->name
+            && $cachedAclName === $aclName
+        ) {
+            return $cache;
+        }
+
+        $acl = $device->findAcl($aclName);
+
+        Vault::set('getAcl', $acl);
+        Vault::set('getAcl-device', $device);
+        Vault::set('getAcl-aclName', $aclName);
+
+        return $acl;
     }
 
-    public function createAcl(Device $device, array $data): DeviceAcl
+    public function addAcl(Device $device, array $data): DeviceAcl
     {
-        return $device->createAcl($data);
+        return $device->addAcl($data);
     }
 
-    public function updateAcl(Device $device, string $acl, array $data): DeviceAcl
+    public function updateAcl(Device $device, string $aclName, array $data): DeviceAcl
     {
-        $device->updateAcl($acl, $data);
+        $device->updateAcl($aclName, $data);
 
-        return $device->findAcl($acl);
+        return $device->findAcl($aclName);
     }
 
-    public function deleteAcl(Device $device, string $acl): void
+    public function deleteAcl(Device $device, string $aclName): void
     {
-        $device->deleteAcl($acl);
+        $device->deleteAcl($aclName);
     }
 
     /**
      * Device Interfaces
      * --------------------
      */
-    public function getInterfaces(Device $device, int $amount = 0): Collection
+    public function getInterfaces(Device $device, int $amount = 0, bool $fresh = false): Collection
     {
-        if (! empty($this->cachedInterfaces)) {
-            return $this->cachedInterfaces;
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getInterfaces'))
+            && ! empty($cachedDevice = Vault::get('getInterfaces-device'))
+            && $cachedDevice->name === $device->name
+        ) {
+            return $cache;
         }
 
-        return $this->cachedInterfaces = $device->getInterfaces(amount: $amount);
+        $interfaces = $device->getInterfaces(amount: $amount);
+
+        Vault::set('getInterfaces', $interfaces);
+        Vault::set('getInterfaces-device', $device);
+
+        return $interfaces;
+    }
+
+    public function getInterface(Device $device, string $interfaceName, bool $fresh = false): DeviceInterface
+    {
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getInterface'))
+            && ! empty($cachedDevice = Vault::get('getInterface-device'))
+            && ! empty($cachedInterfaceName = Vault::get('getInterface-interfaceName'))
+            && $cachedDevice->name === $device->name
+            && $cachedInterfaceName === $interfaceName
+        ) {
+            return $cache;
+        }
+
+        $interface = $device->findInterface($interfaceName);
+
+        Vault::set('getInterface', $interface);
+        Vault::set('getInterface-device', $device);
+        Vault::set('getInterface-interfaceName', $interfaceName);
+
+        return $interface;
     }
 
     public function getInterfaceAmount(Device $device): int
     {
         return $this->getInterfaces($device)->count();
-    }
-
-    public function getInterface(Device $device, string $interface): DeviceInterface
-    {
-        return $device->findInterface($interface);
     }
 
     public function updateInterface(Device $device, string $interface, array $data): DeviceInterface
@@ -151,23 +208,50 @@ class DeviceRepository
      * Device Static OSPFs
      * --------------------
      */
-    public function getOspfs(Device $device, int $amount = 0): Collection
+    public function getOspfs(Device $device, int $amount = 0, bool $fresh = false): Collection
     {
-        if (! empty($this->cachedOspfs)) {
-            return $this->cachedOspfs;
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getOspfs'))
+            && ! empty($cachedDevice = Vault::get('getOspfs-device'))
+            && $cachedDevice->name === $device->name
+        ) {
+            return $cache;
         }
 
-        return $this->cachedOspfs = $device->getOspfs(amount: $amount);
+        $ospfs = $device->getOspfs(amount: $amount);
+
+        Vault::set('getOspfs', $ospfs);
+        Vault::set('getOspfs-device', $device);
+
+        return $ospfs;
     }
 
-    public function getOspf(Device $device, int $ospf): DeviceOspf
+    public function getOspf(Device $device, int $ospfID, bool $fresh = false): DeviceOspf
     {
-        return $device->findOspf($ospf);
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getOspf'))
+            && ! empty($cachedDevice = Vault::get('getOspf-device'))
+            && ! empty($cachedOspfID = Vault::get('getOspf-ospfID'))
+            && $cachedDevice->name === $device->name
+            && $cachedOspfID === $ospfID
+        ) {
+            return $cache;
+        }
+
+        $ospf = $device->findOspf($ospfID);
+
+        Vault::set('getOspf', $ospf);
+        Vault::set('getOspf-device', $device);
+        Vault::set('getOspf-ospfID', $ospfID);
+
+        return $ospf;
     }
 
-    public function createOspf(Device $device, array $data): DeviceOspf
+    public function addOspf(Device $device, array $data): DeviceOspf
     {
-        return $device->createOspf($data);
+        return $device->addOspf($data);
     }
 
     public function updateOspf(Device $device, int $ospf, array $data): DeviceOspf
@@ -186,19 +270,29 @@ class DeviceRepository
      * Device Static Routes
      * --------------------
      */
-    public function getStaticRoutes(Device $device): Collection
+    public function getStaticRoutes(Device $device, bool $fresh = false): Collection
     {
-        if (! empty($this->cachedStaticRoutes)) {
-            return $this->cachedStaticRoutes;
+        if (
+            ! $fresh
+            && ! empty($cache = Vault::get('getStaticRoutes'))
+            && ! empty($cachedDevice = Vault::get('getStaticRoutes-device'))
+            && $cachedDevice->name === $device->name
+        ) {
+            return $cache;
         }
 
-        return $this->cachedStaticRoutes = $device->getStaticRoutes();
+        $staticRoutes = $device->getStaticRoutes();
+
+        Vault::set('getStaticRoutes', $staticRoutes);
+        Vault::set('getStaticRoutes-device', $device);
+
+        return $staticRoutes;
     }
 
     public function updateStaticRoutes(Device $device, array $data): Collection
     {
         $device->updateStaticRoutes(collect($data));
 
-        return $this->cachedStaticRoutes = $device->getStaticRoutes();
+        return $device->getStaticRoutes();
     }
 }

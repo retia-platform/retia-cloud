@@ -3,16 +3,26 @@
 namespace App\Repositories;
 
 use App\Enums\User\Role;
+use App\Helpers\Vault;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class UserRepository
 {
-    public function getAllUsers()
+    public function getAllUsers(bool $fresh = false): Collection
     {
-        return User::all();
+        if (! $fresh && ! empty($cache = Vault::get('getAllUsers'))) {
+            return $cache;
+        }
+
+        $users = User::all();
+
+        Vault::set('getAllUsers', $users);
+
+        return $users;
     }
 
-    public function getUser(?int $id)
+    public function getUser(?int $id): User
     {
         return User::findOrFail($id ?? 0);
     }
@@ -48,7 +58,7 @@ class UserRepository
 
     public function getAllUserCount()
     {
-        return User::count();
+        return $this->getAllUsers()->count();
     }
 
     public function getSuperAdministratorUserCount()

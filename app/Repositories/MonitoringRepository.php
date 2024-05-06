@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Vault;
 use App\Traits\Requestable;
 use Illuminate\Support\Collection;
 
@@ -9,26 +10,19 @@ class MonitoringRepository
 {
     use Requestable;
 
-    private ?Collection $cachedInThroughputs = null;
-
-    private ?string $cachedInThroughputDevice = null;
-
-    private ?string $cachedInThroughputInterface = null;
-
-    private ?Collection $cachedOutThroughputs = null;
-
-    private ?string $cachedOutThroughputDevice = null;
-
-    private ?string $cachedOutThroughputInterface = null;
-
-    private ?Collection $cachedBuildInformation = null;
-
     public function getTimeFilterQueryParams(int $timeRange): string
     {
+        if (! empty($cache = Vault::get('getTimeFilterQueryParams'))) {
+            return $cache;
+        }
+
         $start = now()->subHours($timeRange)->format('Y-m-d').'T'.now()->subHours($timeRange)->format('H:i:s');
         $end = now()->format('Y-m-d').'T'.now()->format('H:i:s');
+        $filter = "?start_time=$start%2B07:00&end_time=$end%2B07:00";
 
-        return "?start_time=$start%2B07:00&end_time=$end%2B07:00";
+        Vault::set('getTimeFilterQueryParams', $filter);
+
+        return $filter;
     }
 
     public function getInThroughputs(
@@ -38,15 +32,16 @@ class MonitoringRepository
         int $amount = 10,
     ): Collection {
         if (
-            ! empty($this->cachedInThroughputs)
-            && $this->cachedInThroughputDevice === $device
-            && $this->cachedInThroughputInterface === $interface
+            ! empty($cache = Vault::get('inThroughputs'))
+            && ! empty($cachedDevice = Vault::get('inThroughputDevice'))
+            && ! empty($cachedInterface = Vault::get('inThroughputInterface'))
+            && $cachedDevice === $device
+            && $cachedInterface === $interface
         ) {
-            return $this->cachedInThroughputs;
+            return $cache;
         }
 
-        $response = $this->withToken()
-            ->get(config('services.retia_api.url')."device/$device/interface/$interface/in_throughput".$this->getTimeFilterQueryParams($timeRange));
+        $response = $this->withToken()->get(config('services.retia_api.url')."device/$device/interface/$interface/in_throughput".$this->getTimeFilterQueryParams($timeRange));
 
         $this->authorize($response);
 
@@ -60,11 +55,11 @@ class MonitoringRepository
             $result[$i][1] = (int) ceil((float) $result[$i][1]);
         }
 
-        $this->cachedInThroughputDevice === $device;
+        Vault::set('inThroughputs', $inThroughputs = collect($result));
+        Vault::set('inThroughputDevice', $device);
+        Vault::set('inThroughputInterface', $interface);
 
-        $this->cachedInThroughputInterface === $interface;
-
-        return $this->cachedInThroughputs = collect($result);
+        return $inThroughputs;
     }
 
     public function getOutThroughputs(
@@ -74,11 +69,13 @@ class MonitoringRepository
         int $amount = 10,
     ): Collection {
         if (
-            ! empty($this->cachedOutThroughputs)
-            && $this->cachedOutThroughputDevice === $device
-            && $this->cachedOutThroughputInterface === $interface
+            ! empty($cache = Vault::get('outThroughputDevice'))
+            && ! empty($cachedDevice = Vault::get('outThroughputInterface'))
+            && ! empty($cachedInterface = Vault::get('outThroughputs'))
+            && $cachedDevice === $device
+            && $cachedInterface === $interface
         ) {
-            return $this->cachedInThroughputs;
+            return $cache;
         }
 
         $response = $this->withToken()
@@ -92,27 +89,27 @@ class MonitoringRepository
             $result = array_slice($response, -$amount, $amount);
         }
 
-        if ($amount > 0) {
-            $result = array_slice($response, -$amount, $amount);
-        }
-
         for ($i = 0; $i < count($result); $i++) {
             $result[$i][1] = (int) ceil((float) $result[$i][1]);
         }
 
-        $this->cachedOutThroughputDevice === $device;
+        Vault::set('outThroughputs', $outThroughputs = collect($result));
+        Vault::set('outThroughputDevice', $device);
+        Vault::set('outThroughputInterface', $interface);
 
-        $this->cachedOutThroughputInterface === $interface;
-
-        return $this->cachedOutThroughputs = collect($result);
+        return $outThroughputs;
     }
 
     public function getBuildInformation(): Collection
     {
-        if (! empty($this->cachedBuildInformation)) {
-            return $this->cachedBuildInformation;
+        if (! empty($cache = Vault::get('buildInformation'))) {
+            return $cache;
         }
 
-        return $this->cachedBuildInformation = $this->get('monitoring/buildinfo');
+        $buildInformation = $this->get('monitoring/buildinfo');
+
+        Vault::set('buildInformation', $buildInformation);
+
+        return $buildInformation;
     }
 }
