@@ -8,4 +8,4 @@
 
 The Retia Cloud Platform.
 
-> Written in [PHP](https://www.php.net) using [Laravel](https://laravel.com). Powered by [Fly](https://fly.io).
+> Written in [PHP](https://www.php.net) using [Laravel](https://laravel.com). Powered by [Fly](https://fly.io), [Neon](https://neon.tech), and [R2](https://cloudflare.com/developer-platform/r2).
