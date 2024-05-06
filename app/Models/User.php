@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Synthable;
+use App\Traits\CanIdentifyByID;
 use App\Traits\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements Synthable
 {
+    use CanIdentifyByID;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;

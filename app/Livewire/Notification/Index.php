@@ -36,6 +36,7 @@ class Index extends Component implements TableComponent
     {
         return $this->notifications->map(function ($notification) {
             return [
+                $notification->id,
                 $notification->data['title'] ?? '',
                 $notification->created_at->diffForHumans(),
             ];

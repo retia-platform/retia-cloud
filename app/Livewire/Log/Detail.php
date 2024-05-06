@@ -7,6 +7,7 @@ use App\Enums\LogInstance;
 use App\Enums\LogSeverity;
 use App\Models\Log;
 use App\Traits\HasSessionError;
+use Exception;
 use Livewire\Component;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,7 +19,13 @@ class Detail extends Component
 
     public function mount()
     {
-        $this->log = Log::make(request()->input('id'));
+        $log = request()->input('id');
+
+        if (empty($log)) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->log = Log::make($log);
 
         if (empty($this->log)) {
             throw new NotFoundHttpException();

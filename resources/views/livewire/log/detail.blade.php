@@ -43,8 +43,9 @@
                 <div class="flex">
                     <x-label for="name" value="{{ __('Messages') }}" />
                 </div>
-                <x-input id="name" autocomplete="name" type="text" value="{{ $log->messages }}"
-                    class="mt-1 block w-full text-sm disabled:shadow-none" disabled />
+                <textarea id="messages" autocomplete="messages"
+                    class="mt-1 block h-64 w-full text-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-gray-500 dark:focus:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-600 rounded-md shadow-sm disabled:shadow-none"
+                    disabled>{{ $log->messages }}</textarea>
             </div>
         </x-slot>
         <x-slot name="actions">
