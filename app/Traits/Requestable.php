@@ -42,11 +42,10 @@ trait Requestable
 
     public function get(
         string $path,
-        array $queryParams = [],
         int $amount = 0, // 0 means all,
         string $resourceName = 'Resource',
     ): Collection {
-        $response = $this->withToken()->get(config('services.retia_api.url').$path, $queryParams);
+        $response = $this->withToken()->get(config('services.retia_api.url').$path);
 
         return $this->authorizeThenCollect($response, $amount, $resourceName, false);
     }

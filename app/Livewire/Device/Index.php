@@ -62,11 +62,14 @@ class Index extends Component implements TableComponent
     {
         return $this->devices->map(function ($device) {
             return [
+                $device->getId(),
                 $device->name,
                 $device->brand,
                 $device->type,
                 '<code>'.$device->ipAddress.'</code>',
-                $device->isRunning() ? '<span class="font-bold text-green-600">🟢 Running</span>' : '<span class="font-bold text-red-600">🔴 Down</span>',
+                $device->isRunning()
+                    ? '<span class="font-bold text-green-600">🟢 Running</span>'
+                    : '<span class="font-bold text-red-600">🔴 Down</span>',
                 $device->createdAt->diffForHumans(),
             ];
         });
@@ -82,30 +85,46 @@ class Index extends Component implements TableComponent
 
     public function filter(DeviceRepository $deviceRepository)
     {
-        $this->devices = $deviceRepository->getDevices()->filter(function ($device) {
-            $brand = Str::lower($device->brand);
-            $type = Str::lower($device->type);
+        $this->devices = $deviceRepository
+            ->getDevices()
+            ->filter(function ($device) {
+                $brand = Str::lower($device->brand);
+                $type = Str::lower($device->type);
 
-            return (
-                ($this->filters['brands']['cisco'] ? $brand === 'cisco' : false) ||
-                ($this->filters['brands']['mikrotik'] ? $brand === 'mikrotik' : false) ||
-                ($this->filters['brands']['juniper'] ? $brand === 'juniper' : false)
-            ) && (
-                ($this->filters['types']['router'] ? $type === 'router' : false) ||
-                ($this->filters['types']['access_point'] ? $type === 'access_point' : false) ||
-                ($this->filters['types']['programmable_switch'] ? $type === 'programmable_switch' : false)
-            ) && (
-                ($this->filters['statuses']['running'] ? $device->isRunning() : false) ||
-                ($this->filters['statuses']['down'] ? ! $device->isRunning() : false)
-            );
-        });
+                return (($this->filters['brands']['cisco']
+                    ? $brand === 'cisco'
+                    : false) ||
+                    ($this->filters['brands']['mikrotik']
+                        ? $brand === 'mikrotik'
+                        : false) ||
+                    ($this->filters['brands']['juniper']
+                        ? $brand === 'juniper'
+                        : false)) &&
+                    (($this->filters['types']['router']
+                        ? $type === 'router'
+                        : false) ||
+                        ($this->filters['types']['access_point']
+                            ? $type === 'access_point'
+                            : false) ||
+                        ($this->filters['types']['programmable_switch']
+                            ? $type === 'programmable_switch'
+                            : false)) &&
+                    (($this->filters['statuses']['running']
+                        ? $device->isRunning()
+                        : false) ||
+                        ($this->filters['statuses']['down']
+                            ? ! $device->isRunning()
+                            : false));
+            });
 
         $this->dispatch('table-item-updated', items: $this->getTableItems());
     }
 
     #[On('table-exported')]
-    public function export(DeviceRepository $deviceRepository, string $fileName): Response|BinaryFileResponse
-    {
+    public function export(
+        DeviceRepository $deviceRepository,
+        string $fileName
+    ): Response|BinaryFileResponse {
         $this->filter($deviceRepository);
 
         return (new DeviceExport($this->devices))->download($fileName);

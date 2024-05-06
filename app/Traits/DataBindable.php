@@ -2,17 +2,21 @@
 
 namespace App\Traits;
 
-use App\Models\Base\APIModel;
-
 trait DataBindable
 {
-    public function dehydrate(APIModel $target)
-    {
+    public function dehydrate(
+        \App\Models\Base\APIModel|
+        \App\Models\User|
+        \Spatie\Permission\Models\Role $target
+    ) {
         return $this->dehydrateFromApiModel($target);
     }
 
-    public function dehydrateFromApiModel(APIModel $target)
-    {
+    public function dehydrateFromApiModel(
+        \App\Models\Base\APIModel|
+        \App\Models\User|
+        \Spatie\Permission\Models\Role $target
+    ) {
         return [$target->toArray(), []];
     }
 

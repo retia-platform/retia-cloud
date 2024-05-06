@@ -63,11 +63,14 @@ class Index extends Component implements TableComponent
     {
         return $this->detectors->map(function (Detector $detector) {
             return [
+                $detector->getId(),
                 $detector->name,
                 $detector->brand,
                 $detector->type,
                 '<code>'.$detector->ipAddress.'</code>',
-                $detector->isRunning() ? '<span class="font-bold text-green-600">🟢 Running</span>' : '<span class="font-bold text-red-600">🔴 Down</span>',
+                $detector->isRunning()
+                    ? '<span class="font-bold text-green-600">🟢 Running</span>'
+                    : '<span class="font-bold text-red-600">🔴 Down</span>',
                 $detector->createdAt->diffForHumans(),
             ];
         });
@@ -83,38 +86,56 @@ class Index extends Component implements TableComponent
 
     public function filter(DetectorRepository $detectorRepository)
     {
-        $this->detectors = $detectorRepository->getDetectors()->filter(function (Detector $detector) {
-            $brand = Str::lower($detector->brand);
-            $type = Str::lower($detector->type);
+        $this->detectors = $detectorRepository
+            ->getDetectors()
+            ->filter(function (Detector $detector) {
+                $brand = Str::lower($detector->brand);
+                $type = Str::lower($detector->type);
 
-            return (
-                ($this->filters['brands']['cisco'] ? $brand === 'cisco' : false) ||
-                ($this->filters['brands']['mikrotik'] ? $brand === 'mikrotik' : false) ||
-                ($this->filters['brands']['juniper'] ? $brand === 'juniper' : false)
-            ) && (
-                ($this->filters['types']['router'] ? $type === 'router' : false) ||
-                ($this->filters['types']['access_point'] ? $type === 'access_point' : false) ||
-                ($this->filters['types']['programmable_switch'] ? $type === 'programmable_switch' : false)
-            ) && (
-                ($this->filters['statuses']['running'] ? $detector->isRunning() : false) ||
-                ($this->filters['statuses']['down'] ? ! $detector->isRunning() : false)
-            );
-        });
+                return (($this->filters['brands']['cisco']
+                    ? $brand === 'cisco'
+                    : false) ||
+                    ($this->filters['brands']['mikrotik']
+                        ? $brand === 'mikrotik'
+                        : false) ||
+                    ($this->filters['brands']['juniper']
+                        ? $brand === 'juniper'
+                        : false)) &&
+                    (($this->filters['types']['router']
+                        ? $type === 'router'
+                        : false) ||
+                        ($this->filters['types']['access_point']
+                            ? $type === 'access_point'
+                            : false) ||
+                        ($this->filters['types']['programmable_switch']
+                            ? $type === 'programmable_switch'
+                            : false)) &&
+                    (($this->filters['statuses']['running']
+                        ? $detector->isRunning()
+                        : false) ||
+                        ($this->filters['statuses']['down']
+                            ? ! $detector->isRunning()
+                            : false));
+            });
 
         $this->dispatch('table-item-updated', items: $this->getTableItems());
     }
 
     #[On('table-exported')]
-    public function export(DetectorRepository $detectorRepository, string $fileName): Response|BinaryFileResponse
-    {
+    public function export(
+        DetectorRepository $detectorRepository,
+        string $fileName
+    ): Response|BinaryFileResponse {
         $this->filter($detectorRepository);
 
         return (new DetectorExport($this->detectors))->download($fileName);
     }
 
     #[On('table-item-deleted')]
-    public function delete(DetectorRepository $detectorRepository, string $detector)
-    {
+    public function delete(
+        DetectorRepository $detectorRepository,
+        string $detector
+    ) {
         $detectorRepository->deleteDetector($detector);
         $this->detectors = $this->filter($detectorRepository);
     }

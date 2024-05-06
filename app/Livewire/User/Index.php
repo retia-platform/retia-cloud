@@ -57,6 +57,7 @@ class Index extends Component implements TableComponent
     {
         return $this->users->map(function (User $user) {
             return [
+                $user->id,
                 '<img src="'.$user->profilePhotoUrl.'" alt="'.$user->name.'" class="h-8 w-8 rounded-full object-cover"/>',
                 $user->name,
                 $user->email,

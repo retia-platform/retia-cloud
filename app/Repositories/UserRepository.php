@@ -12,6 +12,11 @@ class UserRepository
         return User::all();
     }
 
+    public function getUser(?int $id)
+    {
+        return User::findOrFail($id ?? 0);
+    }
+
     public function getSuperAdministratorUsers()
     {
         return User::whereHas('roles', function ($query) {

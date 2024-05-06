@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 
 trait Searchable
 {
-    public Collection $items;
-
     public Collection $originalItems;
+
+    public Collection $items;
 
     public string $searchTerm = '';
 

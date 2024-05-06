@@ -6,6 +6,10 @@
 
 <span>
     @switch($type)
+        @case('photo')
+            <x-icon.photo class="{{ $class }}" solid="{{ $solid }}" />
+        @break
+
         @case('adjustments-horizontal')
             <x-icon.adjustments-horizontal class="{{ $class }}" solid="{{ $solid }}" />
         @break

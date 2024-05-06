@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
+use App\Traits\CanIdentifyByName;
+use App\Traits\HasRunningState;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -11,6 +13,9 @@ use Illuminate\Support\Str;
 
 class Device extends APIModel implements Synthable
 {
+    use CanIdentifyByName;
+    use HasRunningState;
+
     // main properties
     public string $name;
 
@@ -23,8 +28,6 @@ class Device extends APIModel implements Synthable
     public Carbon $createdAt;
 
     public Carbon $updatedAt;
-
-    public bool $running;
 
     public Collection $acls;
 
@@ -260,11 +263,6 @@ class Device extends APIModel implements Synthable
         $this->refreshInterfaces();
         $this->refreshOspfs();
         $this->refreshStaticRoutes();
-    }
-
-    public function isRunning(): bool
-    {
-        return $this->running;
     }
 
     public function getId(): string|int

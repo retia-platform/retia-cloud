@@ -57,6 +57,9 @@
                     @foreach ($items as $item)
                         <tr wire:key="{{ $loop->index }}">
                             @foreach ($item as $data)
+                                @if ($loop->index == 0)
+                                    @continue
+                                @endif
                                 <td wire:key="{{ $loop->index }}"
                                     class="whitespace-nowrap px-4 py-2 font-medium text-gray-700">
                                     {!! $data !!}
@@ -68,7 +71,7 @@
                                         <div
                                             class="inline-flex items-center overflow-hidden rounded-md border bg-white">
                                             @if (!empty($detailRoute))
-                                                <a href="{{ route($detailRoute) }}"
+                                                <a href="{{ route($detailRoute, ['id' => $item[0]]) }}"
                                                     class="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
                                                     Detail
                                                 </a>
@@ -85,7 +88,7 @@
                                             x-on:keydown.escape.window="isActive = false">
                                             <div class="p-2">
                                                 @if (!empty($detailRoute))
-                                                    <a href="{{ route($detailRoute) }}"
+                                                    <a href="{{ route($detailRoute, ['id' => $item[0]]) }}"
                                                         class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                                                         role="menuitem"> See Detail </a>
                                                 @endif

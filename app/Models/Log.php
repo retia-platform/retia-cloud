@@ -5,14 +5,14 @@ namespace App\Models;
 use App\Helpers\Time;
 use App\Interfaces\Synthable;
 use App\Models\Base\APIModel;
-use App\Traits\Requestable;
+use App\Traits\CanIdentifyByID;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Log extends APIModel implements Synthable
 {
-    use Requestable;
+    use CanIdentifyByID;
 
     // main properties
     public string $severity; // info, warning, error
@@ -49,12 +49,14 @@ class Log extends APIModel implements Synthable
     ): Collection {
         $filter = Time::queryParams($from ?? now()->startOfMonth(), $to ?? now()->endOfMonth());
 
-        $response = self::withToken()->get(config('services.retia_api.url')."log/activity$filter");
+        $logs = self::api()->get(
+            "log/activity$filter",
+            amount: $amount,
+            resourceName: self::getResourceName()
+        );
 
-        self::authorize($response);
-
-        return self::collect($response, $amount)->map(function ($detector) {
-            return self::make($detector);
+        return $logs->map(function ($log) {
+            return self::make($log);
         });
     }
 

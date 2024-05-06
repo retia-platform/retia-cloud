@@ -9,6 +9,7 @@ use App\Models\Synth\DeviceOspfSynth;
 use App\Models\Synth\DeviceStaticRouteSynth;
 use App\Models\Synth\DeviceSynth;
 use App\Models\Synth\LogSynth;
+use App\Models\Synth\RoleSynth;
 use App\Models\Synth\UserSynth;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         DeviceStaticRouteSynth::class,
         DetectorSynth::class,
         LogSynth::class,
+        RoleSynth::class,
         UserSynth::class,
     ];
 

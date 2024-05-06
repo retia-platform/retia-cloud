@@ -42,7 +42,7 @@ class Index extends Component implements TableComponent
     {
         return [
             'title' => 'Activity Log',
-            'detailRoute' => 'detectors.detail',
+            'detailRoute' => 'logs.detail',
             'actionable' => true,
             'deleteable' => false,
             'exportable' => true,
@@ -56,6 +56,7 @@ class Index extends Component implements TableComponent
     {
         return $this->logs->map(function (Log $log) {
             return [
+                $log->toArray(),
                 match (true) {
                     $log->isInfoSeverity() => LogSeverity::INFO->badge(),
                     $log->isWarningSeverity() => LogSeverity::WARNING->badge(),

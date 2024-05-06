@@ -123,6 +123,7 @@ class User extends Authenticatable implements Synthable
             'two_factor_secret' => $this->two_factor_secret,
             'retia_api_token' => $this->retia_api_token,
             'remember_token' => $this->remember_token,
+            'profile_photo_url' => $this->profile_photo_url,
         ];
     }
 
@@ -137,6 +138,7 @@ class User extends Authenticatable implements Synthable
             'two_factor_secret' => $value['two_factor_secret'],
             'retia_api_token' => $value['retia_api_token'],
             'remember_token' => $value['remember_token'],
+            'profile_photo_url' => $this->profile_photo_url,
         ]);
     }
 }

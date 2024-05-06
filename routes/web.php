@@ -77,6 +77,7 @@ Route::middleware([
     // Logs
     Route::prefix('logs')->group(function () {
         Route::get('/', \App\Livewire\Log\Index::class)->name('logs');
+        Route::get('detail', \App\Livewire\Log\Detail::class)->name('logs.detail');
     });
 
     // Users
