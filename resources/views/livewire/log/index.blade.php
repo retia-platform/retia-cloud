@@ -35,7 +35,7 @@
                 <x-slot name="filters">
                     <livewire:components.table-filter-checkbox label="Engine" wire:model="filters.instance.engine" />
                     <livewire:components.table-filter-checkbox label="Device" wire:model="filters.instance.device" />
-                    <livewire:components.table-filter-checkbox label="Unknown" wire:model="filters.instance.unknown" />
+                    <livewire:components.table-filter-checkbox label="Other" wire:model="filters.instance.unknown" />
                 </x-slot>
             </x-table-filter-section>
         </x-slot>

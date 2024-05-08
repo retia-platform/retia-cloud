@@ -115,7 +115,8 @@ class Index extends Component implements TableComponent
                 ($this->filters['category']['ospf'] ? $log->isOspfCategory() : false)
             ) && (
                 ($this->filters['instance']['engine'] ? $log->isEngineInstance() : false) ||
-                ($this->filters['instance']['device'] ? $log->isDeviceInstance() : false)
+                ($this->filters['instance']['device'] ? $log->isDeviceInstance() : false) ||
+                ($this->filters['instance']['device'] ? ! $log->isEngineInstance() && ! $log->isDeviceInstance() : false)
             ) && (
                 ($this->filters['severity']['info'] ? $log->isInfoSeverity() : false) ||
                 ($this->filters['severity']['warning'] ? $log->isWarningSeverity() : false) ||

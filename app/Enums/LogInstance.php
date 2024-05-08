@@ -69,7 +69,7 @@ enum LogInstance: string
         return match ($this) {
             self::ENGINE => '<span class="whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs bg-gray-100 text-gray-600">engine</span>',
             self::DEVICE => '<span class="whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs bg-orange-100 text-orange-600">'.$log->instance.'</span>',
-            default => '<span class="whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">unknown</span>',
+            default => '<span class="whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">'.$log->instance.'</span>',
         };
     }
 }

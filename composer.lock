@@ -193,16 +193,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.305.9",
+            "version": "3.306.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a611af9a40a5d93f2f04427b322dbb6044e90327"
+                "reference": "99e13a3647edffba9110948acc85052e3169e46a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a611af9a40a5d93f2f04427b322dbb6044e90327",
-                "reference": "a611af9a40a5d93f2f04427b322dbb6044e90327",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/99e13a3647edffba9110948acc85052e3169e46a",
+                "reference": "99e13a3647edffba9110948acc85052e3169e46a",
                 "shasum": ""
             },
             "require": {
@@ -282,9 +282,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.305.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.306.1"
             },
-            "time": "2024-05-03T18:09:03+00:00"
+            "time": "2024-05-07T18:11:42+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1189,23 +1189,26 @@
         },
         {
             "name": "doctrine/sql-formatter",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/sql-formatter.git",
-                "reference": "a321d114e0a18e6497f8a2cd6f890e000cc17ecc"
+                "reference": "3447381095d32a171fe3a58323749f44dbb5ac7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/a321d114e0a18e6497f8a2cd6f890e000cc17ecc",
-                "reference": "a321d114e0a18e6497f8a2cd6f890e000cc17ecc",
+                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/3447381095d32a171fe3a58323749f44dbb5ac7d",
+                "reference": "3447381095d32a171fe3a58323749f44dbb5ac7d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4"
+                "doctrine/coding-standard": "^9.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.5 || ^9.6",
+                "vimeo/psalm": "^4.11"
             },
             "bin": [
                 "bin/sql-formatter"
@@ -1235,9 +1238,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/sql-formatter/issues",
-                "source": "https://github.com/doctrine/sql-formatter/tree/1.2.0"
+                "source": "https://github.com/doctrine/sql-formatter/tree/1.3.0"
             },
-            "time": "2023-08-16T21:49:04+00:00"
+            "time": "2024-05-06T21:49:18+00:00"
         },
         {
             "name": "dompdf/dompdf",
@@ -2541,16 +2544,16 @@
         },
         {
             "name": "laravel/octane",
-            "version": "v2.3.9",
+            "version": "v2.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/octane.git",
-                "reference": "33773bbbf7ba6c9cea3d9bc3f63e3ec57197729f"
+                "reference": "61a3e69eaba9cf71f038c9950bec1a84d9c63223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/octane/zipball/33773bbbf7ba6c9cea3d9bc3f63e3ec57197729f",
-                "reference": "33773bbbf7ba6c9cea3d9bc3f63e3ec57197729f",
+                "url": "https://api.github.com/repos/laravel/octane/zipball/61a3e69eaba9cf71f038c9950bec1a84d9c63223",
+                "reference": "61a3e69eaba9cf71f038c9950bec1a84d9c63223",
                 "shasum": ""
             },
             "require": {
@@ -2626,7 +2629,7 @@
                 "issues": "https://github.com/laravel/octane/issues",
                 "source": "https://github.com/laravel/octane"
             },
-            "time": "2024-04-29T13:25:54+00:00"
+            "time": "2024-05-07T13:19:11+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2688,20 +2691,20 @@
         },
         {
             "name": "laravel/pulse",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pulse.git",
-                "reference": "37fc7512d01de7e59b0ae9634c638849d98c3fca"
+                "reference": "16746346a6cb2cd12d9e93db206aaf2b9d792b21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pulse/zipball/37fc7512d01de7e59b0ae9634c638849d98c3fca",
-                "reference": "37fc7512d01de7e59b0ae9634c638849d98c3fca",
+                "url": "https://api.github.com/repos/laravel/pulse/zipball/16746346a6cb2cd12d9e93db206aaf2b9d792b21",
+                "reference": "16746346a6cb2cd12d9e93db206aaf2b9d792b21",
                 "shasum": ""
             },
             "require": {
-                "doctrine/sql-formatter": "^1.1",
+                "doctrine/sql-formatter": "^1.2",
                 "guzzlehttp/promises": "^1.0|^2.0",
                 "illuminate/auth": "^10.48.4|^11.0.8",
                 "illuminate/cache": "^10.48.4|^11.0.8",
@@ -2771,7 +2774,7 @@
                 "issues": "https://github.com/laravel/pulse/issues",
                 "source": "https://github.com/laravel/pulse"
             },
-            "time": "2024-04-30T14:43:29+00:00"
+            "time": "2024-05-06T17:11:35+00:00"
         },
         {
             "name": "laravel/sanctum",
